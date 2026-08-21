@@ -16,6 +16,14 @@ const useUserStore = create(
         });
         return resp;
       },
+      fetchCurrentUser: async () => {
+        const token = get().token;
+        const resp = await mainApi.get("/auth/me", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        set({ user: resp.data });
+        return resp;
+      },
       logout: () => {
         set({
           user: null,

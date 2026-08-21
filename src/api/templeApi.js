@@ -1,6 +1,7 @@
 import { mainApi } from "./mainApi";
 
 export const getTemples = (params) => mainApi.get("/temples", { params });
+export const getTempleById = (templeId) => mainApi.get(`/temples/${templeId}`);
 export const getCategories = () => mainApi.get("/categories");
 export const getFavorites = (token) =>
   mainApi.get("/favorites", { headers: { Authorization: `Bearer ${token}` } });

@@ -99,7 +99,7 @@ function Temples() {
     <div className="min-h-screen bg-[#faf8fb] px-4 py-8 sm:px-6">
       <div className="mx-auto w-full max-w-md">
         <section className="rounded-[22px] bg-white p-5 shadow-[0_10px_32px_rgba(59,0,102,0.06)]">
-          <h1 className="text-lg font-medium text-[#3B0066]">
+          <h1 className="text-2xl font-bold text-[#3B0066]">
             ค้นหาสถานที่ศักดิ์สิทธิ์
           </h1>
           <label className="relative mt-5 block">

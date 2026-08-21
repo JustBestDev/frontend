@@ -3,7 +3,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import { toast } from "react-toastify";
-import { loginAccount } from "../api/authApi";
 import { ArrowIcon, BrandLogo, EyeIcon, MailIcon } from "../icons/AuthIcons";
 import { loginSchema } from "../validations/loginValidation";
 import useUserStore from "../stores/userStore";
@@ -31,9 +30,7 @@ function Login() {
 
   const onSubmit = async (data) => {
     try {
-      const resp = await login(data)
-      // console.log('resp', resp)
-      await loginAccount({
+      await login({
         email: data.email.trim(),
         password: data.password,
       });
