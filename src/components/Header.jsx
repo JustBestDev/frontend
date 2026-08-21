@@ -26,7 +26,7 @@ function Header() {
             className={`${actionClassName} justify-self-start`}
             onClick={handleLogout}
           >
-            <LogoutIcon className="size-7" />
+            <LogoutIcon className="size-7 cursor-pointer" />
           </button>
         ) : (
           <Link
@@ -45,7 +45,7 @@ function Header() {
           <Link
             to="/profile"
             aria-label="Go to profile"
-            className={`${actionClassName} justify-self-end`}
+            className={`${actionClassName} justify-self-end cursor-pointer`}
           >
             <ProfileIcon className="size-7" />
           </Link>

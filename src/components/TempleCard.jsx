@@ -51,7 +51,7 @@ bg-white/30 backdrop-blur-md
 border border-white/40
 shadow-sm transition active:scale-95
 disabled:cursor-not-allowed disabled:opacity-55
-${isFavorite ? "text-[#5B008E]" : "text-[#29252d]"}`}
+${isFavorite ? "text-[#5B008E]" : "text-[#29252d]"} cursor-pointer`}
         >
           <HeartIcon filled={isFavorite} />
         </button>

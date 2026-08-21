@@ -112,7 +112,7 @@ function Temples() {
               className="h-14 w-full rounded-xl border border-[#ded9e1] bg-[#fcfbfc] pl-12 pr-4 text-base outline-none placeholder:text-[#918a96] focus:border-[#7A21A8] focus:ring-2 focus:ring-[#7A21A8]/15"
             />
           </label>
-          <label className="relative mt-4 block">
+          <label className="relative mt-4 block cursor-pointer">
             <span className="sr-only">เลือกจังหวัด</span>
             <LocationIcon className="pointer-events-none absolute left-4 top-1/2 size-6 -translate-y-1/2 text-[#8b8391]" />
             <select
@@ -136,7 +136,7 @@ function Temples() {
                   key={item.id}
                   type="button"
                   onClick={() => setCategory(value)}
-                  className={`h-10 shrink-0 rounded-full px-5 text-sm font-medium ${active ? "bg-[#3B0066] text-white" : "bg-[#efe2f2] text-[#40204f]"}`}
+                  className={`h-10 shrink-0 rounded-full px-5 text-sm font-medium ${active ? "bg-[#3B0066] text-white" : "bg-[#efe2f2] text-[#40204f] cursor-pointer"}`}
                 >
                   {item.name}
                 </button>
