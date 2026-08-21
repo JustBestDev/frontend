@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
 import {
   addFavorite,
@@ -13,6 +13,7 @@ import {
   LocationIcon,
   SparklesIcon,
 } from "../icons/TempleIcons";
+import FortuneStickModal from "../components/FortuneStickModal";
 import useUserStore from "../stores/userStore";
 
 function TempleImageFallback() {
@@ -29,12 +30,21 @@ const actionClassName =
 function TempleDetail() {
   const { templeId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from || "/temples";
   const token = useUserStore((state) => state.token);
   const [temple, setTemple] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const [favoriteDisabled, setFavoriteDisabled] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [isFortuneModalOpen, setIsFortuneModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (!location.state?.openFortuneModal) return;
+    setIsFortuneModalOpen(true);
+    navigate(location.pathname, { replace: true, state: { from } });
+  }, [from, location.pathname, location.state?.openFortuneModal, navigate]);
 
   useEffect(() => {
     const fetchTemple = async () => {
@@ -100,7 +110,7 @@ function TempleDetail() {
           </p>
           <button
             type="button"
-            onClick={() => navigate("/temples")}
+            onClick={() => navigate(from, { replace: true })}
             className="mt-5 rounded-xl bg-[#3B0066] px-5 py-3 text-white"
           >
             กลับไปหน้ารวมวัด
@@ -126,7 +136,7 @@ function TempleDetail() {
           <button
             type="button"
             aria-label="ย้อนกลับ"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/temples")}
             className={`${actionClassName} justify-self-start cursor-pointer`}
           >
             <ArrowLeftIcon className="size-8" />
@@ -184,6 +194,7 @@ ${isFavorite ? "text-white" : "text-white"} cursor-pointer`}
         <div className="space-y-5 px-4 py-6 pb-10 sm:px-6">
           <button
             type="button"
+            onClick={() => setIsFortuneModalOpen(true)}
             style={{
               display: "flex",
               minHeight: "3.5rem", // min-h-14
@@ -264,6 +275,12 @@ ${isFavorite ? "text-white" : "text-white"} cursor-pointer`}
           </section>
         </div>
       </div>
+      <FortuneStickModal
+        temple={temple}
+        isOpen={isFortuneModalOpen}
+        onClose={() => setIsFortuneModalOpen(false)}
+        from={from}
+      />
     </main>
   );
 }

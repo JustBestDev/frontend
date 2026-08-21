@@ -11,6 +11,7 @@ import Temples from "../pages/Temples";
 import Favorites from "../pages/Favorites";
 import Profile from "../pages/Profile";
 import TempleDetail from "../pages/TempleDetail";
+import FortuneResult from "../pages/FortuneResult";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,8 @@ const router = createBrowserRouter([
   },
 
   { path: "/temples/:templeId", Component: TempleDetail },
+  { path: "/fortune-result", Component: FortuneResult },
+  { path: "/fortune-result/:historyId", Component: FortuneResult },
 
   { path: "/login", Component: Login },
   { path: "/register", Component: Register },

@@ -20,6 +20,7 @@ function TempleImageFallback() {
 
 function TempleCard({
   temple,
+  from = "/temples",
   isFavorite,
   onToggleFavorite,
   favoriteDisabled,
@@ -80,6 +81,7 @@ ${isFavorite ? "text-[#5B008E]" : "text-[#29252d]"} cursor-pointer`}
         <div className="mt-5 border-t border-[#e5e0e7] pt-4">
           <Link
             to={`/temples/${temple.id}`}
+            state={{ from }}
             className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#f5f1f6] font-medium text-[#3B0066] transition hover:bg-[#eadcf0] active:scale-[0.99]"
           >
             ดูรายละเอียด <ArrowRightIcon />

@@ -167,6 +167,7 @@ function Temples() {
             !error &&
             temples.map((temple) => (
               <TempleCard
+                from="/temples"
                 key={temple.id}
                 temple={temple}
                 isFavorite={favorites.has(temple.id)}

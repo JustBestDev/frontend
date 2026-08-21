@@ -147,6 +147,7 @@ function Favorites() {
             !error &&
             favorites.map((temple) => (
               <TempleCard
+                from="/favorites"
                 key={temple.id}
                 temple={temple}
                 isFavorite
