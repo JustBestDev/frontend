@@ -15,6 +15,7 @@ import {
 } from "../icons/TempleIcons";
 import FortuneStickModal from "../components/FortuneStickModal";
 import useUserStore from "../stores/userStore";
+import { ArrowIcon } from "../icons/AuthIcons";
 
 function TempleImageFallback() {
   return (
@@ -130,8 +131,8 @@ function TempleDetail() {
     : "";
 
   return (
-    <main className="min-h-screen overflow-x-hidden bg-[#faf9fb] text-[#5f5863]">
-      <header className="w-full border-[#eee8f1] bg-white shadow-[0_-8px_30px_rgba(61,28,73,0.08)] backdrop-blur">
+    <main className="min-h-screen animate-slide-in-right overflow-x-hidden bg-[#faf9fb] text-[#5f5863]">
+      <header className="fixed top-0 z-50 w-full border-[#eee8f1] bg-white shadow-[0_-8px_30px_rgba(61,28,73,0.08)] backdrop-blur">
         <div className="mx-auto grid h-16 w-full max-w-screen-md grid-cols-[1fr_auto_1fr] items-center px-4 sm:h-20 sm:px-6 md:px-8">
           <button
             type="button"
@@ -146,7 +147,7 @@ function TempleDetail() {
           </h1>
         </div>
       </header>
-      <div className="mx-auto w-full max-w-md bg-[#faf9fb] sm:max-w-lg md:max-w-xl">
+      <div className="mx-auto mt-20 w-full max-w-md bg-[#faf9fb] sm:max-w-lg md:max-w-xl">
         <section className="relative">
           {temple.imageUrl ? (
             <div className="z-10 w-full" style={{ backgroundColor: "black" }}>
@@ -192,30 +193,57 @@ ${isFavorite ? "text-white" : "text-white"} cursor-pointer`}
         </section>
 
         <div className="space-y-5 px-4 py-6 pb-10 sm:px-6">
-          <button
-            type="button"
-            onClick={() => setIsFortuneModalOpen(true)}
-            style={{
-              display: "flex",
-              minHeight: "3.5rem", // min-h-14
-              width: "100%",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "0.75rem",
-              borderRadius: "0.75rem",
-              backgroundColor: "#4A006E",
-              padding: "0.75rem 1rem",
-              fontSize: "1.125rem",
-              fontWeight: 500,
-              color: "#fafafa", // pink-400
-              boxShadow: "0 10px 24px rgba(74, 0, 110, 0.18)",
-              cursor: "pointer",
-              transition: "all 0.15s ease",
-            }}
-          >
-            <SparklesIcon className="size-7" />
-            เสี่ยงเซียมซีที่วัดนี้
-          </button>
+          {token ? (
+            <button
+              type="button"
+              onClick={() => setIsFortuneModalOpen(true)}
+              style={{
+                display: "flex",
+                minHeight: "3.5rem",
+                width: "100%",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "0.75rem",
+                borderRadius: "0.75rem",
+                backgroundColor: "#4A006E",
+                padding: "0.75rem 1rem",
+                fontSize: "1.125rem",
+                fontWeight: 500,
+                color: "#fafafa",
+                boxShadow: "0 10px 24px rgba(74, 0, 110, 0.18)",
+                cursor: "pointer",
+                transition: "all 0.15s ease",
+              }}
+            >
+              <SparklesIcon className="size-7" />
+              เสี่ยงเซียมซีที่วัดนี้
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => navigate("/login")}
+              style={{
+                display: "flex",
+                minHeight: "3.5rem",
+                width: "100%",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "0.75rem",
+                borderRadius: "0.75rem",
+                backgroundColor: "#4A006E",
+                padding: "0.75rem 1rem",
+                fontSize: "1.125rem",
+                fontWeight: 500,
+                color: "#fafafa",
+                boxShadow: "0 10px 24px rgba(74, 0, 110, 0.18)",
+                cursor: "pointer",
+                transition: "all 0.15s ease",
+              }}
+            >
+              <ArrowIcon className="size-7" />
+              เข้าสู่ระบบเพื่อเสี่ยงเซียมซี
+            </button>
+          )}
 
           <section className="rounded-3xl bg-white p-6 shadow-sm">
             <h2 className="text-xl font-medium text-[#3B0066]">เกี่ยวกับวัด</h2>

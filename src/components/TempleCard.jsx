@@ -47,13 +47,14 @@ function TempleCard({
           aria-pressed={isFavorite}
           disabled={favoriteDisabled}
           onClick={() => onToggleFavorite(temple.id)}
-          className={`absolute right-3 top-3 grid size-11 shrink-0 place-items-center rounded-full
+          className={`absolute right-3 top-3 inline-flex gap-1.5 px-3 min-h-10 shrink-0 place-items-center rounded-full
 bg-white/30 backdrop-blur-md
 border border-white/40
 shadow-sm transition active:scale-95
 disabled:cursor-not-allowed disabled:opacity-55
 ${isFavorite ? "text-[#5B008E]" : "text-[#29252d]"} cursor-pointer`}
         >
+          {temple.favoriteCount}
           <HeartIcon filled={isFavorite} />
         </button>
       </div>

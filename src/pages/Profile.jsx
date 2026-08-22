@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { ProfileIcon } from "../icons/HeaderIcons";
 import { EditIcon } from "../icons/ProfileIcons";
+import { HistoryIcon } from "../icons/TempleIcons";
 import useUserStore from "../stores/userStore";
 
 const roleLabels = {
@@ -94,10 +95,10 @@ function Profile() {
           aria-hidden="true"
         >
           <header className="mb-8 px-4 py-8">
-            <h1 className="text-4xl font-bold text-[#3B0066]">
-              โปรไฟล์ของฉัน
-            </h1>
-            <p className="mt-2 text-[#6e6673]">จัดการข้อมูลส่วนตัวและดวงชะตาของคุณ</p>
+            <h1 className="text-4xl font-bold text-[#3B0066]">โปรไฟล์ของฉัน</h1>
+            <p className="mt-2 text-[#6e6673]">
+              จัดการข้อมูลส่วนตัวและดวงชะตาของคุณ
+            </p>
           </header>
 
           <div className="space-y-5">
@@ -133,9 +134,7 @@ function Profile() {
     <div className="min-h-screen bg-[#faf8fb] px-4 py-6 sm:px-6 sm:py-8">
       <div className="mx-auto w-full max-w-md">
         <header className="mb-8">
-          <h1 className="text-4xl font-bold text-[#3B0066]">
-            โปรไฟล์ของฉัน
-          </h1>
+          <h1 className="text-4xl font-bold text-[#3B0066]">โปรไฟล์ของฉัน</h1>
           <p className="mt-2 text-base text-[#5f5863]">
             จัดการข้อมูลส่วนตัวและดวงชะตาของคุณ
           </p>
@@ -148,57 +147,75 @@ function Profile() {
         )}
 
         {!loading && error && (
-          <p role="alert" className="rounded-3xl bg-white px-6 py-12 text-center text-red-600 shadow-sm">
+          <p
+            role="alert"
+            className="rounded-3xl bg-white px-6 py-12 text-center text-red-600 shadow-sm"
+          >
             {error}
           </p>
         )}
 
         {!loading && !error && user && (
-          <section className="rounded-3xl bg-white p-6 shadow-[0_10px_32px_rgba(59,0,102,0.06)] sm:p-8">
-            {user.profileImageUrl ? (
-              <img
-                src={user.profileImageUrl}
-                alt={`รูปโปรไฟล์ของ ${user.name}`}
-                className="size-28 rounded-full border-4 border-[#f0edf1] object-cover shadow-sm"
-              />
-            ) : (
-              <div className="grid size-28 place-items-center rounded-full bg-[#F6EFF9] text-[#3B0066] shadow-sm">
-                <ProfileIcon className="size-16" />
+          <>
+            <section className="rounded-3xl bg-white p-6 shadow-[0_10px_32px_rgba(59,0,102,0.06)] sm:p-8">
+              {user.profileImageUrl ? (
+                <img
+                  src={user.profileImageUrl}
+                  alt={`รูปโปรไฟล์ของ ${user.name}`}
+                  className="size-28 rounded-full border-4 border-[#f0edf1] object-cover shadow-sm"
+                />
+              ) : (
+                <div className="grid size-28 place-items-center rounded-full bg-[#F6EFF9] text-[#3B0066] shadow-sm">
+                  <ProfileIcon className="size-16" />
+                </div>
+              )}
+
+              <div className="mt-8">
+                <h2 className="text-xl font-semibold text-[#242024]">
+                  {user.name}
+                </h2>
+                <p className="mt-1 break-words text-lg text-[#5f5863]">
+                  {user.email}
+                </p>
+                <p className="mt-4 font-semibold inline-flex rounded-full bg-[#F1E1F5] px-4 py-2 text-[#4A1268]">
+                  {roleLabels[user.role] || user.role}
+                </p>
               </div>
-            )}
 
-            <div className="mt-8">
-              <h2 className="text-xl font-semibold text-[#242024]">{user.name}</h2>
-              <p className="mt-1 break-words text-lg text-[#5f5863]">{user.email}</p>
-              <p className="mt-4 font-semibold inline-flex rounded-full bg-[#F1E1F5] px-4 py-2 text-[#4A1268]">
-                {roleLabels[user.role] || user.role}
-              </p>
-            </div>
+              <hr className="my-7 border-gray-200" />
 
-            <hr className="my-7 border-gray-200" />
+              <div>
+                <p className="text-sm text-[#5f5863]">วันเกิด</p>
+                <p className="mt-2 text-xl text-[#242024]">
+                  {formatThaiDate(user.birthDate)}
+                </p>
+              </div>
 
-            <div>
-              <p className="text-sm text-[#5f5863]">วันเกิด</p>
-              <p className="mt-2 text-xl text-[#242024]">{formatThaiDate(user.birthDate)}</p>
-            </div>
+              <div className="mt-7">
+                <p className="text-sm text-[#5f5863]">วันเกิดประจำสัปดาห์</p>
+                <p className="mt-2 text-xl font-semibold text-[#BF9A33]">
+                  {getBirthDayName(user.birthDate)}
+                </p>
+              </div>
 
-            <div className="mt-7">
-              <p className="text-sm text-[#5f5863]">วันเกิดประจำสัปดาห์</p>
-              <p className="mt-2 text-xl font-semibold text-[#BF9A33]">
-                {getBirthDayName(user.birthDate)}
-              </p>
-            </div>
-
-            <button
-              type="button"
-              disabled
-              title="ระบบแก้ไขโปรไฟล์กำลังอยู่ระหว่างพัฒนา"
-              className="mt-9 flex min-h-14 w-full items-center justify-center gap-3 rounded-xl border-1 border-[#3B0066] bg-white text-lg text-[#3B0066]"
-            >
-              <EditIcon className="size-6" />
-              <span>แก้ไขโปรไฟล์</span>
-            </button>
-          </section>
+              <button
+                type="button"
+                disabled
+                title="ระบบแก้ไขโปรไฟล์กำลังอยู่ระหว่างพัฒนา"
+                className="mt-9 flex min-h-14 w-full items-center justify-center gap-3 rounded-xl border border-[#3B0066] bg-white text-lg text-[#3B0066]"
+              >
+                <EditIcon className="size-6" />
+                <span>แก้ไขโปรไฟล์</span>
+              </button>
+              <Link
+                to="/my-history"
+                className="mt-4 flex min-h-14 w-full items-center justify-center gap-3 rounded-xl border border-[#3B0066] bg-white text-lg font-medium text-[#3B0066] transition hover:bg-[#f8f3fa] active:scale-[0.99]"
+              >
+                <HistoryIcon className="size-6" />
+                <span>ประวัติเสี่ยงเซียมซีของฉัน</span>
+              </Link>
+            </section>
+          </>
         )}
       </div>
     </div>

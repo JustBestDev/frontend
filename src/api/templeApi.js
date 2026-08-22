@@ -1,6 +1,7 @@
 import { mainApi } from "./mainApi";
 
 export const getTemples = (params) => mainApi.get("/temples", { params });
+export const getPopularTemples = () => mainApi.get("/temples/popular");
 export const getTempleById = (templeId) => mainApi.get(`/temples/${templeId}`);
 export const getCategories = () => mainApi.get("/categories");
 export const getFavorites = (token) =>
@@ -23,5 +24,9 @@ export const drawFortune = (templeId, token) =>
   );
 export const getFortuneHistoryById = (historyId, token) =>
   mainApi.get(`/fortune-histories/${historyId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+export const getFortuneHistories = (token) =>
+  mainApi.get("/fortune-histories", {
     headers: { Authorization: `Bearer ${token}` },
   });

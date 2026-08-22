@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
-import { toast } from "react-toastify";
 import { getFortuneHistoryById } from "../api/templeApi";
-import { CalendarIcon, ClockIcon, HistoryIcon, HomeOutlineIcon, LeafIcon, RefreshIcon } from "../icons/TempleIcons";
+import { ArrowLeftIcon, CalendarIcon, ClockIcon, HistoryIcon, HomeOutlineIcon, LeafIcon, RefreshIcon } from "../icons/TempleIcons";
 import { TempleIcon } from "../icons/NavigationIcons";
 import useUserStore from "../stores/userStore";
 
@@ -79,7 +78,10 @@ function FortuneResult() {
   return (
     <main className="min-h-screen bg-[#faf8fb] px-4 py-10 text-[#29252d] sm:px-6 sm:py-14">
       <div className="mx-auto w-full max-w-md">
-        <header className="text-center">
+        <header className="relative text-center">
+          <button type="button" aria-label="ย้อนกลับ" onClick={() => navigate(from)} className="absolute left-0 top-0 grid size-11 place-items-center rounded-full text-[#3B0066] transition hover:bg-[#f1e2f3]">
+            <ArrowLeftIcon className="size-8" />
+          </button>
           <h1 className="text-4xl font-semibold leading-tight text-[#3B0066]">ผลการเสี่ยงเซียมซี</h1>
           <p className="mt-3 flex items-center justify-center gap-2 text-lg text-[#5f5863]"><TempleIcon /><span>{temple.name}</span></p>
         </header>
@@ -99,7 +101,7 @@ function FortuneResult() {
         </section>
 
         <div className="mt-8 space-y-4">
-          <button type="button" onClick={() => toast.info("หน้าประวัติเซียมซีกำลังอยู่ระหว่างพัฒนา")} className={outlineButton}><HistoryIcon className="size-7" />ดูประวัติเสี่ยงเซียมซี</button>
+          <button type="button" onClick={() => navigate("/my-history")} className={outlineButton}><HistoryIcon className="size-7" />ดูประวัติเสี่ยงเซียมซี</button>
           <button type="button" onClick={() => goToTemple(true)} className={outlineButton}><RefreshIcon className="size-7" />เสี่ยงใหม่</button>
           <button type="button" onClick={() => goToTemple(false)} className="flex min-h-14 w-full items-center justify-center gap-3 rounded-xl bg-[#3B0066] px-4 text-lg font-medium text-white shadow-[0_8px_18px_rgba(59,0,102,0.2)] transition hover:bg-[#4d0877] active:scale-[0.99]"><HomeOutlineIcon className="size-7" />กลับหน้าวัด</button>
         </div>

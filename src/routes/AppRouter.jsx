@@ -12,6 +12,13 @@ import Favorites from "../pages/Favorites";
 import Profile from "../pages/Profile";
 import TempleDetail from "../pages/TempleDetail";
 import FortuneResult from "../pages/FortuneResult";
+import MyHistory from "../pages/MyHistory";
+import useUserStore from "../stores/userStore";
+
+function ProtectedRoute({ children }) {
+  const token = useUserStore((state) => state.token);
+  return token ? children : <Navigate to="/login" replace />;
+}
 
 const router = createBrowserRouter([
   {
@@ -29,6 +36,14 @@ const router = createBrowserRouter([
   { path: "/temples/:templeId", Component: TempleDetail },
   { path: "/fortune-result", Component: FortuneResult },
   { path: "/fortune-result/:historyId", Component: FortuneResult },
+  {
+    path: "/my-history",
+    element: (
+      <ProtectedRoute>
+        <MyHistory />
+      </ProtectedRoute>
+    ),
+  },
 
   { path: "/login", Component: Login },
   { path: "/register", Component: Register },

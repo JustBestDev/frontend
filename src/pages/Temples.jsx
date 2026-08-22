@@ -86,6 +86,18 @@ function Temples() {
         else next.add(templeId);
         return next;
       });
+
+      setTemples((current) =>
+        current.map((temple) =>
+          temple.id === templeId
+            ? {
+                ...temple,
+                favoriteCount:
+                  (temple.favoriteCount ?? 0) + (isFavorite ? -1 : 1),
+              }
+            : temple,
+        ),
+      );
     } catch (err) {
       toast.error(
         err.response?.data?.message || "ไม่สามารถอัปเดตรายการโปรดได้",
