@@ -9,8 +9,16 @@ export function MailIcon() {
 export function EyeIcon({ hidden = false }) {
   return <svg viewBox="0 0 24 24" {...iconProps}><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z" /><circle cx="12" cy="12" r="2.5" />{hidden && <path d="m4 4 16 16" />}</svg>
 }
-export function ArrowIcon() {
-  return <svg viewBox="0 0 24 24" {...iconProps}><path d="M5 12h14M14 7l5 5-5 5" /></svg>
+export function ArrowIcon({ className = "" }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      {...iconProps}
+      className={className}
+    >
+      <path d="M5 12h14M14 7l5 5-5 5" />
+    </svg>
+  );
 }
 export function UserIcon() {
   return <svg viewBox="0 0 24 24" {...iconProps}><circle cx="12" cy="8" r="4" /><path d="M4 21a8 8 0 0 1 16 0" /></svg>

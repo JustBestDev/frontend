@@ -197,23 +197,7 @@ ${isFavorite ? "text-white" : "text-white"} cursor-pointer`}
             <button
               type="button"
               onClick={() => setIsFortuneModalOpen(true)}
-              style={{
-                display: "flex",
-                minHeight: "3.5rem",
-                width: "100%",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "0.75rem",
-                borderRadius: "0.75rem",
-                backgroundColor: "#4A006E",
-                padding: "0.75rem 1rem",
-                fontSize: "1.125rem",
-                fontWeight: 500,
-                color: "#fafafa",
-                boxShadow: "0 10px 24px rgba(74, 0, 110, 0.18)",
-                cursor: "pointer",
-                transition: "all 0.15s ease",
-              }}
+              className="flex min-h-14 w-full cursor-pointer items-center justify-center gap-3 rounded-xl bg-[#4A006E] px-4 py-3 text-lg font-medium text-[#fafafa] shadow-[0_10px_24px_rgba(74,0,110,0.18)] transition"
             >
               <SparklesIcon className="size-7" />
               เสี่ยงเซียมซีที่วัดนี้
@@ -222,23 +206,7 @@ ${isFavorite ? "text-white" : "text-white"} cursor-pointer`}
             <button
               type="button"
               onClick={() => navigate("/login")}
-              style={{
-                display: "flex",
-                minHeight: "3.5rem",
-                width: "100%",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "0.75rem",
-                borderRadius: "0.75rem",
-                backgroundColor: "#4A006E",
-                padding: "0.75rem 1rem",
-                fontSize: "1.125rem",
-                fontWeight: 500,
-                color: "#fafafa",
-                boxShadow: "0 10px 24px rgba(74, 0, 110, 0.18)",
-                cursor: "pointer",
-                transition: "all 0.15s ease",
-              }}
+              className="flex min-h-14 w-full cursor-pointer items-center justify-center gap-3 rounded-xl bg-[#4A006E] px-4 py-3 text-lg font-medium text-[#fafafa] shadow-[0_10px_24px_rgba(74,0,110,0.18)] transition"
             >
               <ArrowIcon className="size-7" />
               เข้าสู่ระบบเพื่อเสี่ยงเซียมซี

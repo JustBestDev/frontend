@@ -103,62 +103,69 @@ function Favorites() {
   }
 
   return (
-    <div className="min-h-screen bg-[#faf8fb] px-4 py-8 sm:px-6">
-      <div className="mx-auto w-full max-w-md">
-        <header className="mb-8">
-          <h1 className="text-4xl font-bold text-[#3B0066]">วัดที่บันทึกไว้</h1>
-          <p className="mt-2 text-[#6e6673]">สถานที่ศักศิ์ที่คุณชื่นชอบ</p>
-        </header>
+  <div className="min-h-screen bg-[#faf8fb] px-4 py-8 sm:px-6">
+    <div className="mx-auto w-full max-w-md md:max-w-4xl lg:max-w-7xl">
+      <header className="mb-8">
+        <h1 className="text-4xl font-bold text-[#3B0066]">
+          วัดที่บันทึกไว้
+        </h1>
 
-        <div className="flex flex-col gap-7">
-          {loading && (
-            <p className="py-16 text-center text-[#6e6673]">
-              กำลังโหลดรายการที่บันทึก...
+        <p className="mt-2 text-[#6e6673]">
+          สถานที่ศักศิ์ที่คุณชื่นชอบ
+        </p>
+      </header>
+
+      <div className="grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3">
+        {loading && (
+          <p className="py-16 text-center text-[#6e6673] md:col-span-2 lg:col-span-3">
+            กำลังโหลดรายการที่บันทึก...
+          </p>
+        )}
+
+        {!loading && error && (
+          <p
+            role="alert"
+            className="rounded-2xl bg-white px-5 py-10 text-center text-red-600 shadow-sm md:col-span-2 lg:col-span-3"
+          >
+            {error}
+          </p>
+        )}
+
+        {!loading && !error && favorites.length === 0 && (
+          <section className="rounded-2xl bg-white px-5 py-12 text-center shadow-sm md:col-span-2 lg:col-span-3">
+            <h2 className="text-2xl font-semibold text-[#3B0066]">
+              ยังไม่มีวัดที่บันทึกไว้
+            </h2>
+
+            <p className="mt-2 leading-6 text-[#6e6673]">
+              ไปค้นหาวัดที่ถูกใจแล้วกดหัวใจเก็บไว้ได้เลย
             </p>
-          )}
 
-          {!loading && error && (
-            <p
-              role="alert"
-              className="rounded-2xl bg-white px-5 py-10 text-center text-red-600 shadow-sm"
+            <Link
+              to="/temples"
+              className="mt-6 inline-flex h-11 items-center justify-center rounded-xl bg-[#5B008E] px-6 font-medium text-white transition hover:bg-[#4b0076]"
             >
-              {error}
-            </p>
-          )}
+              ค้นหาวัด
+            </Link>
+          </section>
+        )}
 
-          {!loading && !error && favorites.length === 0 && (
-            <section className="rounded-2xl bg-white px-5 py-12 text-center shadow-sm">
-              <h2 className="text-2xl font-semibold text-[#3B0066]">
-                ยังไม่มีวัดที่บันทึกไว้
-              </h2>
-              <p className="mt-2 leading-6 text-[#6e6673]">
-                ไปค้นหาวัดที่ถูกใจแล้วกดหัวใจเก็บไว้ได้เลย
-              </p>
-              <Link
-                to="/temples"
-                className="mt-6 inline-flex h-11 items-center justify-center rounded-xl bg-[#5B008E] px-6 font-medium text-white transition hover:bg-[#4b0076]"
-              >
-                ค้นหาวัด
-              </Link>
-            </section>
-          )}
-
-          {!loading &&
-            !error &&
-            favorites.map((temple) => (
-              <TempleCard
-                from="/favorites"
-                key={temple.id}
-                temple={temple}
-                isFavorite
-                onToggleFavorite={handleRemoveFavorite}
-                favoriteDisabled={updatingFavorite === temple.id}
-              />
-            ))}
-        </div>
+        {!loading &&
+          !error &&
+          favorites.map((temple) => (
+            <TempleCard
+              from="/favorites"
+              key={temple.id}
+              temple={temple}
+              isFavorite
+              onToggleFavorite={handleRemoveFavorite}
+              favoriteDisabled={updatingFavorite === temple.id}
+            />
+          ))}
       </div>
     </div>
-  );
+  </div>
+);
 }
 
 export default Favorites;

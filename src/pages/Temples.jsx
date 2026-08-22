@@ -108,15 +108,29 @@ function Temples() {
   };
 
   return (
-    <div className="min-h-screen bg-[#faf8fb] px-4 py-8 sm:px-6">
-      <div className="mx-auto w-full max-w-md">
-        <section className="rounded-[22px] bg-white p-5 shadow-[0_10px_32px_rgba(59,0,102,0.06)]">
+  <div className="min-h-screen bg-[#faf8fb] px-4 py-8 sm:px-6">
+    <div className="mx-auto w-full max-w-md lg:max-w-7xl">
+      <div className="lg:grid lg:grid-cols-[1fr_380px] lg:items-start lg:gap-8">
+        
+        {/* ฝั่งขวา: Search / Filter */}
+        <section
+          className="
+            rounded-[22px] bg-white p-5
+            shadow-[0_10px_32px_rgba(59,0,102,0.06)]
+            lg:sticky lg:top-24 lg:col-start-2 lg:row-start-1
+          "
+        >
           <h1 className="text-2xl font-bold text-[#3B0066]">
             ค้นหาสถานที่ศักดิ์สิทธิ์
           </h1>
+
           <label className="relative mt-5 block">
-            <span className="sr-only">ค้นหาชื่อวัดหรือสถานที่</span>
+            <span className="sr-only">
+              ค้นหาชื่อวัดหรือสถานที่
+            </span>
+
             <SearchIcon className="absolute left-4 top-1/2 size-6 -translate-y-1/2 text-[#8b8391]" />
+
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -124,57 +138,81 @@ function Temples() {
               className="h-14 w-full rounded-xl border border-[#ded9e1] bg-[#fcfbfc] pl-12 pr-4 text-base outline-none placeholder:text-[#918a96] focus:border-[#7A21A8] focus:ring-2 focus:ring-[#7A21A8]/15"
             />
           </label>
+
           <label className="relative mt-4 block cursor-pointer">
             <span className="sr-only">เลือกจังหวัด</span>
+
             <LocationIcon className="pointer-events-none absolute left-4 top-1/2 size-6 -translate-y-1/2 text-[#8b8391]" />
+
             <select
               value={province}
               onChange={(e) => setProvince(e.target.value)}
               className="h-14 w-full appearance-none rounded-xl border border-[#ded9e1] bg-[#fcfbfc] pl-12 pr-12 text-base outline-none focus:border-[#7A21A8]"
             >
               <option value="">ทุกจังหวัด</option>
+
               {provinceOptions.map((item) => (
                 <option key={item}>{item}</option>
               ))}
             </select>
+
             <ChevronDownIcon className="pointer-events-none absolute right-4 top-1/2 size-5 -translate-y-1/2 text-[#77707d]" />
           </label>
+
           <div className="mt-4 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {[{ id: "all", name: "ทั้งหมด" }, ...categories].map((item) => {
-              const value = item.id === "all" ? "" : item.name;
-              const active = category === value;
-              return (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => setCategory(value)}
-                  className={`h-10 shrink-0 rounded-full px-5 text-sm font-medium ${active ? "bg-[#3B0066] text-white" : "bg-[#efe2f2] text-[#40204f] cursor-pointer"}`}
-                >
-                  {item.name}
-                </button>
-              );
-            })}
+            {[{ id: "all", name: "ทั้งหมด" }, ...categories].map(
+              (item) => {
+                const value = item.id === "all" ? "" : item.name;
+                const active = category === value;
+
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => setCategory(value)}
+                    className={`h-10 shrink-0 rounded-full px-5 text-sm font-medium ${
+                      active
+                        ? "bg-[#3B0066] text-white"
+                        : "cursor-pointer bg-[#efe2f2] text-[#40204f]"
+                    }`}
+                  >
+                    {item.name}
+                  </button>
+                );
+              },
+            )}
           </div>
         </section>
-        <div className="mt-8 flex flex-col gap-7">
+
+        {/* ฝั่งซ้าย: Temple Cards */}
+        <div
+          className="
+            mt-8 flex flex-col gap-7
+            lg:col-start-1 lg:row-start-1 lg:mt-0
+            lg:grid lg:grid-cols-2 lg:gap-6
+          "
+        >
           {loading && (
-            <p className="py-16 text-center text-[#6e6673]">
+            <p className="py-16 text-center text-[#6e6673] lg:col-span-2">
               กำลังโหลดสถานที่...
             </p>
           )}
+
           {!loading && error && (
             <p
               role="alert"
-              className="rounded-2xl bg-white px-5 py-10 text-center text-red-600 shadow-sm"
+              className="rounded-2xl bg-white px-5 py-10 text-center text-red-600 shadow-sm lg:col-span-2"
             >
               {error}
             </p>
           )}
+
           {!loading && !error && temples.length === 0 && (
-            <p className="rounded-2xl bg-white px-5 py-12 text-center text-[#6e6673] shadow-sm">
+            <p className="rounded-2xl bg-white px-5 py-12 text-center text-[#6e6673] shadow-sm lg:col-span-2">
               ไม่พบสถานที่ที่ตรงกับการค้นหา
             </p>
           )}
+
           {!loading &&
             !error &&
             temples.map((temple) => (
@@ -190,6 +228,7 @@ function Temples() {
         </div>
       </div>
     </div>
-  );
+  </div>
+);
 }
 export default Temples;

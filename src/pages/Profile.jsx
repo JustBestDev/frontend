@@ -198,15 +198,13 @@ function Profile() {
                 </p>
               </div>
 
-              <button
-                type="button"
-                disabled
-                title="ระบบแก้ไขโปรไฟล์กำลังอยู่ระหว่างพัฒนา"
-                className="mt-9 flex min-h-14 w-full items-center justify-center gap-3 rounded-xl border border-[#3B0066] bg-white text-lg text-[#3B0066]"
+              <Link
+                to="/profile/edit"
+                className="mt-9 flex min-h-14 w-full items-center justify-center gap-3 rounded-xl border border-[#3B0066] bg-white text-lg text-[#3B0066] transition hover:bg-[#f8f3fa] active:scale-[0.99]"
               >
                 <EditIcon className="size-6" />
                 <span>แก้ไขโปรไฟล์</span>
-              </button>
+              </Link>
               <Link
                 to="/my-history"
                 className="mt-4 flex min-h-14 w-full items-center justify-center gap-3 rounded-xl border border-[#3B0066] bg-white text-lg font-medium text-[#3B0066] transition hover:bg-[#f8f3fa] active:scale-[0.99]"

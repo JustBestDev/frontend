@@ -7,3 +7,9 @@ export function registerAccount(payload) {
 export function loginAccount(payload) {
   return mainApi.post("/auth/login", payload);
 }
+
+export function updateProfile(payload, token) {
+  return mainApi.patch("/auth/me", payload, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}

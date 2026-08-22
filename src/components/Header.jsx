@@ -18,40 +18,67 @@ function Header() {
 
   return (
     <header className="w-full border-[#eee8f1] bg-white shadow-[0_-8px_30px_rgba(61,28,73,0.08)] backdrop-blur">
-      <div className="mx-auto grid h-16 w-full max-w-screen-md grid-cols-[1fr_auto_1fr] items-center px-4 sm:h-20 sm:px-6 md:px-8">
-        {user ? (
-          <button
-            type="button"
-            aria-label="Logout"
-            className={`${actionClassName} justify-self-start`}
-            onClick={handleLogout}
-          >
-            <LogoutIcon className="size-7 cursor-pointer" />
-          </button>
-        ) : (
-          <Link
-            className="inline-flex h-10 w-fit items-center justify-self-start rounded-full px-5 bg-[#3B0066] text-sm font-medium text-white shadow-[0_10px_25px_rgba(67,0,107,.16)] transition hover:-translate-y-px hover:bg-[#560087] hover:shadow-[0_13px_28px_rgba(67,0,107,.23)]"
-            to="/login"
-          >
-            เข้าสู่ระบบ
-          </Link>
-        )}
+      <div
+        className="
+          mx-auto grid h-16 w-full max-w-3xl
+          grid-cols-[1fr_auto_1fr] items-center px-4
+          sm:h-20 sm:px-6
 
-        <span className="justify-self-center text-2xl font-extrabold tracking-[-0.04em] text-[#3B0066] sm:text-3xl">
+          md:flex
+          md:max-w-6xl
+          md:justify-between
+          md:px-8
+        "
+      >
+        {/* Mobile left / Desktop right */}
+        <div className="justify-self-start md:order-1 md:flex md:items-center md:gap-3">
+          {user ? (
+            <button
+              type="button"
+              aria-label="Logout"
+              className={actionClassName}
+              onClick={handleLogout}
+            >
+              <LogoutIcon className="size-7 cursor-pointer" />
+            </button>
+          ) : (
+            <Link
+              className="inline-flex h-10 w-fit items-center rounded-full bg-[#3B0066] px-5 text-sm font-medium text-white shadow-[0_10px_25px_rgba(67,0,107,.16)] transition hover:-translate-y-px hover:bg-[#560087]"
+              to="/login"
+            >
+              เข้าสู่ระบบ
+            </Link>
+          )}
+        </div>
+
+        {/* Logo */}
+        <span
+          className="
+            justify-self-center text-2xl font-extrabold
+            tracking-[-0.04em] text-[#3B0066]
+            sm:text-3xl
+
+            md:order-2
+            md:justify-self-auto
+          "
+        >
           MuMorrow
         </span>
 
-        {user ? (
-          <Link
-            to="/profile"
-            aria-label="Go to profile"
-            className={`${actionClassName} justify-self-end cursor-pointer`}
-          >
-            <ProfileIcon className="size-7" />
-          </Link>
-        ) : (
-          <p className={`${actionClassName} border px-4 justify-self-end`}>Guest</p>
-        )}
+        {/* Mobile right / Desktop right */}
+        <div className="justify-self-end md:order-3 md:flex md:items-center">
+          {user ? (
+            <Link
+              to="/profile"
+              aria-label="Go to profile"
+              className={`${actionClassName} cursor-pointer`}
+            >
+              <ProfileIcon className="size-7" />
+            </Link>
+          ) : (
+            <p className={`${actionClassName} border px-4`}>Guest</p>
+          )}
+        </div>
       </div>
     </header>
   );

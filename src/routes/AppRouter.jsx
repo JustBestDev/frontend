@@ -13,6 +13,7 @@ import Profile from "../pages/Profile";
 import TempleDetail from "../pages/TempleDetail";
 import FortuneResult from "../pages/FortuneResult";
 import MyHistory from "../pages/MyHistory";
+import EditProfile from "../pages/EditProfile";
 import useUserStore from "../stores/userStore";
 
 function ProtectedRoute({ children }) {
@@ -41,6 +42,15 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <MyHistory />
+      </ProtectedRoute>
+    ),
+  },
+
+  {
+    path: "/profile/edit",
+    element: (
+      <ProtectedRoute>
+        <EditProfile />
       </ProtectedRoute>
     ),
   },

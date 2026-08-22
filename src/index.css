@@ -64,5 +64,5 @@ body {
 }
 
 .animate-slide-in-right {
-  animation: slide-in-right 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  animation: slide-in-right 150ms cubic-bezier(0.22, 1, 0.36, 1);
 }

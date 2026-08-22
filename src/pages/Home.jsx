@@ -64,18 +64,21 @@ function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#faf8fb] px-4 pb-8 pt-10 sm:px-6 sm:pt-12">
-      <div className="mx-auto w-full max-w-md">
+    <div className="min-h-screen bg-[#faf8fb] px-4 pb-8 pt-10 sm:px-6 sm:pt-12 ">
+      <div className="mx-auto w-full max-w-md md:max-w-6xl">
         <section>
           <h1 className="text-3xl font-bold leading-tight text-[#3B0066]">
-            สวัสดี{user?.name ? `, ${user.name}` : ""}
+            สวัสดี{user?.name ? `, ${user.name}` : ", ผู้เยี่ยมชม"}
           </h1>
           <p className="mt-2 text-lg text-[#625b66]">
             เริ่มต้นวันใหม่ด้วยพลังแห่งความดี
           </p>
         </section>
 
-        <nav aria-label="เมนูลัด" className="mt-9 grid grid-cols-3 gap-3">
+        <nav
+          aria-label="เมนูลัด"
+          className="mt-9 grid grid-cols-3 gap-3 md:max-w-md"
+        >
           {shortcuts.map(({ label, path, Icon }) => (
             <Link
               key={path}
@@ -92,8 +95,8 @@ function Home() {
           ))}
         </nav>
 
-        <section className="mt-12" aria-labelledby="popular-heading">
-          <div className="flex items-center justify-between gap-4">
+        <section className="mt-12" aria-labelledby="popular-heading ">
+          <div className="flex items-center justify-between gap-4 ">
             <h2
               id="popular-heading"
               className="text-2xl font-bold text-[#302b33]"
@@ -104,7 +107,7 @@ function Home() {
               to="/temples"
               className="shrink-0 rounded-lg px-2 py-2 font-medium text-[#3B0066] transition hover:bg-[#F1E2F3]"
             >
-              ดูทั้งหมด
+              ดูวัดทั้งหมด
             </Link>
           </div>
 
@@ -130,11 +133,15 @@ function Home() {
           )}
 
           {!loadingPopular && !popularError && popularTemples.length > 0 && (
-            <div className="mt-5 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div
+              className="mt-5 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 scrollbar-none [&::-webkit-scrollbar]:hidden
+            md:grid md:grid-cols-3 md:overflow-visible md:snap-none md:gap-6"
+            >
               {popularTemples.map((temple) => (
                 <article
                   key={temple.id}
-                  className="w-[82%] max-w-[320px] shrink-0 snap-start overflow-hidden rounded-[26px] bg-white shadow-[0_10px_32px_rgba(59,0,102,0.07)]"
+                  className="w-[82%] max-w-[320px] shrink-0 snap-start overflow-hidden rounded-[26px] bg-white shadow-[0_10px_32px_rgba(59,0,102,0.07)]
+                  md:w-full md:max-w-none md:shrink md:snap-none"
                 >
                   <div className="relative">
                     <TempleImage temple={temple} />

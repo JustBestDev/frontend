@@ -24,6 +24,7 @@ const useUserStore = create(
         set({ user: resp.data });
         return resp;
       },
+      setUser: (user) => set({ user }),
       logout: () => {
         set({
           user: null,

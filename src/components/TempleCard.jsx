@@ -3,7 +3,7 @@ import { Link } from "react-router";
 
 function TempleImageFallback() {
   return (
-    <div className="flex aspect-[16/9] w-full items-center justify-center bg-gradient-to-br from-[#eee1f3] via-[#f8f5f9] to-[#dcc8e6] text-[#5B008E]">
+    <div className="flex aspect-video w-full items-center justify-center bg-linear-to-br from-[#eee1f3] via-[#f8f5f9] to-[#dcc8e6] text-[#5B008E]">
       <svg
         aria-hidden="true"
         className="h-20 w-20 opacity-35"

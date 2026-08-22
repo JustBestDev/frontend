@@ -7,24 +7,69 @@ import useUserStore from "../stores/userStore";
 const SHAKE_DURATION = 3000;
 
 function FortuneStick({ isShaking }) {
+  const sticks = [
+    { rotate: -10, x: 2, height: 132 },
+    { rotate: -5, x: 1, height: 145 },
+    { rotate: -2, x: 0, height: 156 },
+    { rotate: 2, x: 0, height: 160 },
+    { rotate: 5, x: -1, height: 150 },
+    { rotate: 9, x: -2, height: 138 },
+  ];
+
   return (
     <div
       aria-hidden="true"
-      className={`relative mx-auto h-56 w-36 origin-bottom ${isShaking ? "fortune-stick-shaking" : ""}`}
+      className={`relative mx-auto h-64 w-44 origin-bottom ${
+        isShaking ? "fortune-stick-shaking" : ""
+      }`}
     >
-      <div className="absolute inset-x-5 top-2 flex h-32 items-start justify-center gap-1 overflow-hidden rounded-t-[2.5rem]">
-        {Array.from({ length: 7 }, (_, index) => (
-          <span
+      {/* ไม้เซียมซี */}
+      <div className="absolute left-1/2 top-0 flex -translate-x-1/2 items-end justify-center">
+        {sticks.map((stick, index) => (
+          <div
             key={index}
-            className="h-32 w-2 origin-bottom rounded-full bg-gradient-to-b from-[#e8c078] to-[#9b5b25] shadow-sm"
-            style={{ transform: `rotate(${(index - 3) * 4}deg)` }}
-          />
+            className="relative -mx-1 w-7 origin-bottom"
+            style={{
+              height: `${stick.height}px`,
+              transform: `translateX(${stick.x}px) rotate(${stick.rotate}deg)`,
+            }}
+          >
+            {/* ตัวไม้ */}
+            <div className="absolute inset-x-1 bottom-0 top-8 rounded-sm bg-gradient-to-r from-[#ead8ae] via-[#f3e2ba] to-[#d7bf91]" />
+
+            {/* ปลายสีทอง */}
+            <div className="absolute inset-x-1 top-2 h-11 bg-linear-to-r from-[#8A5A12] via-[#FFF2A8] to-[#A96F16]" />
+
+            {/* หัวไม้แหลมสีทอง */}
+            <div className="absolute left-1/2 top-0 size-5 -translate-x-1/2 rotate-45 bg-linear-to-br from-[#FFF2A8] via-[#D49A2A] to-[#8A5A12]" />
+          </div>
         ))}
       </div>
-      <div className="absolute inset-x-3 bottom-0 h-32 rounded-[2rem_2rem_2.6rem_2.6rem] border-4 border-[#9d672d] bg-gradient-to-r from-[#8a4c20] via-[#c58a45] to-[#754018] shadow-[0_18px_30px_rgba(59,0,102,0.2)]">
-        <div className="absolute inset-3 rounded-[1.4rem_1.4rem_2rem_2rem] border border-[#efd298]/70" />
-        <div className="absolute inset-x-0 top-1/2 text-center text-3xl text-[#f3d999]">
-          เซียมซี
+
+      {/* ตัวกระบอก */}
+      <div
+        className="absolute bottom-3 left-1/2 z-10 h-32 w-36
+    -translate-x-1/2 overflow-hidden rounded-b-[2.6rem]
+    bg-linear-to-r
+    from-[#2A0048]
+    via-[#5B1680]
+    to-[#2A0048]
+    shadow-[0_18px_30px_rgba(59,0,102,0.18)]"
+      >
+        {/* highlight */}
+        <div className="absolute inset-y-0 left-7 w-8 bg-white/5" />
+
+        <div
+          className="
+    absolute inset-x-0 top-1/2 -translate-y-1/2
+    bg-[linear-gradient(90deg,#6F470C_0%,#D49A2A_18%,#FFF3A3_38%,#B97816_55%,#FFE88A_72%,#8A570F_100%)]
+    bg-clip-text
+    text-center text-xl font-semibold tracking-wide
+    text-transparent
+    drop-shadow-[0_1px_1px_rgba(0,0,0,0.35)]
+  "
+        >
+          MuMorrow
         </div>
       </div>
     </div>
