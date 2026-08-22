@@ -18,6 +18,7 @@ function MyHistory() {
   const navigate = useNavigate();
   const token = useUserStore((state) => state.token);
   const [histories, setHistories] = useState([]);
+  const [showScrollTop, setShowScrollTop] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -42,11 +43,31 @@ function MyHistory() {
       active = false;
     };
   }, [token]);
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 400);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const handleScrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   return (
   <main className="min-h-screen animate-slide-in-right bg-[#faf8fb] text-[#302b33]">
     <header className="fixed z-50 w-full border-[#eee8f1] bg-white shadow-[0_-8px_30px_rgba(61,28,73,0.08)] backdrop-blur">
-      <div className="mx-auto grid h-16 w-full max-w-screen-md grid-cols-[1fr_auto_1fr] items-center px-4 sm:h-20 sm:px-6 md:px-8">
+      <div className="mx-auto grid h-16 w-full max-w-3xl grid-cols-[1fr_auto_1fr] items-center px-4 sm:h-20 sm:px-6 md:px-8">
         <button
           type="button"
           aria-label="กลับหน้าโปรไฟล์"
@@ -116,7 +137,7 @@ function MyHistory() {
           {histories.map((history) => (
             <article
               key={history.id}
-              className="flex h-full flex-col rounded-[24px] border border-[#eee9f0] bg-white p-6 shadow-sm"
+              className="flex h-full flex-col rounded-3xl border border-[#eee9f0] bg-white p-6 shadow-sm"
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="min-w-0">
@@ -161,6 +182,29 @@ function MyHistory() {
         </div>
       )}
     </div>
+    {showScrollTop && (
+        <button
+          type="button"
+          onClick={handleScrollToTop}
+          aria-label="กลับไปด้านบน"
+          className="
+      fixed top-20 left-1/2 -translate-x-1/2 z-50
+      grid p-2 px-5 place-items-center
+      rounded-xl
+      border border-[#3B0066]/15
+      bg-white/30
+      text-[#3B0066]/50 text-lg
+      shadow-[0_8px_24px_rgba(59,0,102,0.12)]
+      backdrop-blur-md
+      transition
+      hover:bg-white/70
+      active:scale-95
+      sm:right-6
+    "
+        >
+          ↑ กลับไปบนสุด
+        </button>
+      )}
   </main>
 );
 }

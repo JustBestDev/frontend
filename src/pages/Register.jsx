@@ -71,12 +71,12 @@ function Register() {
   ];
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-gradient-to-b from-purple-50 via-white to-amber-50 px-4 py-6 sm:px-6 sm:py-10">
+    <main className="relative min-h-screen overflow-hidden bg-linear-to-b from-purple-50 via-white to-amber-50 px-4 py-6 sm:px-6 sm:py-10">
       <div className="pointer-events-none absolute -right-32 -top-40 size-80 rounded-full bg-purple-200/40 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-40 -left-32 size-80 rounded-full bg-amber-100/60 blur-3xl" />
 
       <section
-        className="relative z-10 mx-auto w-full max-w-[500px]"
+        className="relative z-10 mx-auto w-full max-w-125"
         aria-labelledby="register-title"
       >
         <div className="rounded-[28px] border border-white bg-white/90 px-5 py-7 shadow-[0_24px_70px_rgba(74,0,112,.10)] backdrop-blur sm:px-8 sm:py-9">

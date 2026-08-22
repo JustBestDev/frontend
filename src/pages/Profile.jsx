@@ -174,7 +174,7 @@ function Profile() {
                 <h2 className="text-xl font-semibold text-[#242024]">
                   {user.name}
                 </h2>
-                <p className="mt-1 break-words text-lg text-[#5f5863]">
+                <p className="mt-1 wrap-break-word text-lg text-[#5f5863]">
                   {user.email}
                 </p>
                 <p className="mt-4 font-semibold inline-flex rounded-full bg-[#F1E1F5] px-4 py-2 text-[#4A1268]">

@@ -46,16 +46,16 @@ function Login() {
 
   return (
     <main className="relative grid min-h-screen place-items-center overflow-hidden bg-[linear-gradient(145deg,#fff_5%,#fbf7ff_52%,#7f1ad1_100%)] px-4 py-[30px] sm:px-5 sm:py-[52px]">
-      <div className="pointer-events-none absolute -right-32 -top-44 size-[390px] rounded-full bg-[radial-gradient(circle,rgba(209,160,255,.48)_0%,rgba(225,194,255,.22)_42%,transparent_70%)] opacity-65 blur-lg sm:-right-[170px] sm:-top-[230px] sm:size-[560px]" />
+      <div className="pointer-events-none absolute -right-32 -top-44 size-97.5 rounded-full bg-[radial-gradient(circle,rgba(209,160,255,.48)_0%,rgba(225,194,255,.22)_42%,transparent_70%)] opacity-65 blur-lg sm:-right-[170px] sm:-top-[230px] sm:size-[560px]" />
 
-      <div className="pointer-events-none absolute -bottom-52 -left-40 size-[390px] rounded-full bg-[radial-gradient(circle,rgba(209,160,255,.48)_0%,rgba(225,194,255,.22)_42%,transparent_70%)] opacity-65 blur-lg sm:-bottom-[300px] sm:-left-[230px] sm:size-[560px]" />
+      <div className="pointer-events-none absolute -bottom-52 -left-40 size-97.5 rounded-full bg-[radial-gradient(circle,rgba(209,160,255,.48)_0%,rgba(225,194,255,.22)_42%,transparent_70%)] opacity-65 blur-lg sm:-bottom-[300px] sm:-left-[230px] sm:size-[560px]" />
 
       <section
-        className="relative z-10 w-full max-w-[610px]"
+        className="relative z-10 w-full max-w-152.5"
         aria-labelledby="login-title"
       >
-        <header className="mb-[22px] text-center sm:mb-[30px]">
-          <div className="mx-auto mb-3.5 grid size-[68px] place-items-center rounded-[18px] bg-white/90 text-[#41006b] shadow-[0_16px_40px_rgba(74,13,104,.09)] sm:mb-[18px] sm:size-[82px] sm:rounded-[22px] [&_svg]:size-11 sm:[&_svg]:size-[54px]">
+        <header className="mb-5.5 text-center sm:mb-7.5">
+          <div className="mx-auto mb-3.5 grid size-17 place-items-center rounded-[18px] bg-white/90 text-[#41006b] shadow-[0_16px_40px_rgba(74,13,104,.09)] sm:mb-[18px] sm:size-[82px] sm:rounded-[22px] [&_svg]:size-11 sm:[&_svg]:size-[54px]">
             <BrandLogo />
           </div>
 
@@ -72,7 +72,7 @@ function Login() {
         </header>
 
         <form
-          className="flex flex-col gap-[17px] rounded-[22px] border border-white/90 bg-white/80 px-5 py-6 shadow-[0_25px_75px_rgba(74,0,112,.11)] backdrop-blur-lg sm:gap-5 sm:rounded-[28px] sm:p-[42px]"
+          className="flex flex-col gap-4.25 rounded-[22px] border border-white/90 bg-white/80 px-5 py-6 shadow-[0_25px_75px_rgba(74,0,112,.11)] backdrop-blur-lg sm:gap-5 sm:rounded-[28px] sm:p-[42px]"
           noValidate
           onSubmit={handleSubmit(onSubmit)}
         >
@@ -82,7 +82,7 @@ function Login() {
               <span className="sr-only">อีเมล</span>
 
               <input
-                className="h-14 w-full bg-transparent px-6 pr-[62px] text-[1.08rem] text-[#342e38] outline-none placeholder:text-[#736b76] sm:h-16"
+                className="h-14 w-full bg-transparent px-6 pr-15.5 text-[1.08rem] text-[#342e38] outline-none placeholder:text-[#736b76] sm:h-16"
                 type="email"
                 {...register("email")}
                 autoComplete="email"

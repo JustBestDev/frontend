@@ -25,6 +25,7 @@ function Temples() {
   const [category, setCategory] = useState("");
   const [favorites, setFavorites] = useState(new Set());
   const [updatingFavorite, setUpdatingFavorite] = useState(null);
+  const [showScrollTop, setShowScrollTop] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -72,6 +73,19 @@ function Temples() {
     }, 300);
     return () => clearTimeout(timer);
   }, [search, province, category]);
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 400);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const handleToggleFavorite = async (templeId) => {
     if (!token) return toast.info("กรุณาเข้าสู่ระบบเพื่อบันทึกรายการโปรด");
@@ -107,61 +121,64 @@ function Temples() {
     }
   };
 
+  const handleScrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
-  <div className="min-h-screen bg-[#faf8fb] px-4 py-8 sm:px-6">
-    <div className="mx-auto w-full max-w-md lg:max-w-7xl">
-      <div className="lg:grid lg:grid-cols-[1fr_380px] lg:items-start lg:gap-8">
-        
-        {/* ฝั่งขวา: Search / Filter */}
-        <section
-          className="
+    <div className="min-h-screen bg-[#faf8fb] px-4 py-8 sm:px-6">
+      <div className="mx-auto w-full max-w-md lg:max-w-7xl">
+        <div className="lg:grid lg:grid-cols-[1fr_380px] lg:items-start lg:gap-8">
+          {/* ฝั่งขวา: Search / Filter */}
+          <section
+            className="
             rounded-[22px] bg-white p-5
             shadow-[0_10px_32px_rgba(59,0,102,0.06)]
             lg:sticky lg:top-24 lg:col-start-2 lg:row-start-1
           "
-        >
-          <h1 className="text-2xl font-bold text-[#3B0066]">
-            ค้นหาสถานที่ศักดิ์สิทธิ์
-          </h1>
+          >
+            <h1 className="text-2xl font-bold text-[#3B0066]">
+              ค้นหาสถานที่ศักดิ์สิทธิ์
+            </h1>
 
-          <label className="relative mt-5 block">
-            <span className="sr-only">
-              ค้นหาชื่อวัดหรือสถานที่
-            </span>
+            <label className="relative mt-5 block">
+              <span className="sr-only">ค้นหาชื่อวัดหรือสถานที่</span>
 
-            <SearchIcon className="absolute left-4 top-1/2 size-6 -translate-y-1/2 text-[#8b8391]" />
+              <SearchIcon className="absolute left-4 top-1/2 size-6 -translate-y-1/2 text-[#8b8391]" />
 
-            <input
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="ค้นหาชื่อวัดหรือสถานที่..."
-              className="h-14 w-full rounded-xl border border-[#ded9e1] bg-[#fcfbfc] pl-12 pr-4 text-base outline-none placeholder:text-[#918a96] focus:border-[#7A21A8] focus:ring-2 focus:ring-[#7A21A8]/15"
-            />
-          </label>
+              <input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="ค้นหาชื่อวัดหรือสถานที่..."
+                className="h-14 w-full rounded-xl border border-[#ded9e1] bg-[#fcfbfc] pl-12 pr-4 text-base outline-none placeholder:text-[#918a96] focus:border-[#7A21A8] focus:ring-2 focus:ring-[#7A21A8]/15"
+              />
+            </label>
 
-          <label className="relative mt-4 block cursor-pointer">
-            <span className="sr-only">เลือกจังหวัด</span>
+            <label className="relative mt-4 block cursor-pointer">
+              <span className="sr-only">เลือกจังหวัด</span>
 
-            <LocationIcon className="pointer-events-none absolute left-4 top-1/2 size-6 -translate-y-1/2 text-[#8b8391]" />
+              <LocationIcon className="pointer-events-none absolute left-4 top-1/2 size-6 -translate-y-1/2 text-[#8b8391]" />
 
-            <select
-              value={province}
-              onChange={(e) => setProvince(e.target.value)}
-              className="h-14 w-full appearance-none rounded-xl border border-[#ded9e1] bg-[#fcfbfc] pl-12 pr-12 text-base outline-none focus:border-[#7A21A8]"
-            >
-              <option value="">ทุกจังหวัด</option>
+              <select
+                value={province}
+                onChange={(e) => setProvince(e.target.value)}
+                className="h-14 w-full appearance-none rounded-xl border border-[#ded9e1] bg-[#fcfbfc] pl-12 pr-12 text-base outline-none focus:border-[#7A21A8]"
+              >
+                <option value="">ทุกจังหวัด</option>
 
-              {provinceOptions.map((item) => (
-                <option key={item}>{item}</option>
-              ))}
-            </select>
+                {provinceOptions.map((item) => (
+                  <option key={item}>{item}</option>
+                ))}
+              </select>
 
-            <ChevronDownIcon className="pointer-events-none absolute right-4 top-1/2 size-5 -translate-y-1/2 text-[#77707d]" />
-          </label>
+              <ChevronDownIcon className="pointer-events-none absolute right-4 top-1/2 size-5 -translate-y-1/2 text-[#77707d]" />
+            </label>
 
-          <div className="mt-4 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {[{ id: "all", name: "ทั้งหมด" }, ...categories].map(
-              (item) => {
+            <div className="mt-4 flex gap-2 overflow-x-auto pb-1 scrollbar-none [&::-webkit-scrollbar]:hidden">
+              {[{ id: "all", name: "ทั้งหมด" }, ...categories].map((item) => {
                 const value = item.id === "all" ? "" : item.name;
                 const active = category === value;
 
@@ -179,56 +196,78 @@ function Temples() {
                     {item.name}
                   </button>
                 );
-              },
-            )}
-          </div>
-        </section>
+              })}
+            </div>
+          </section>
 
-        {/* ฝั่งซ้าย: Temple Cards */}
-        <div
-          className="
+          {/* ฝั่งซ้าย: Temple Cards */}
+          <div
+            className="
             mt-8 flex flex-col gap-7
             lg:col-start-1 lg:row-start-1 lg:mt-0
             lg:grid lg:grid-cols-2 lg:gap-6
           "
-        >
-          {loading && (
-            <p className="py-16 text-center text-[#6e6673] lg:col-span-2">
-              กำลังโหลดสถานที่...
-            </p>
-          )}
+          >
+            {loading && (
+              <p className="py-16 text-center text-[#6e6673] lg:col-span-2">
+                กำลังโหลดสถานที่...
+              </p>
+            )}
 
-          {!loading && error && (
-            <p
-              role="alert"
-              className="rounded-2xl bg-white px-5 py-10 text-center text-red-600 shadow-sm lg:col-span-2"
-            >
-              {error}
-            </p>
-          )}
+            {!loading && error && (
+              <p
+                role="alert"
+                className="rounded-2xl bg-white px-5 py-10 text-center text-red-600 shadow-sm lg:col-span-2"
+              >
+                {error}
+              </p>
+            )}
 
-          {!loading && !error && temples.length === 0 && (
-            <p className="rounded-2xl bg-white px-5 py-12 text-center text-[#6e6673] shadow-sm lg:col-span-2">
-              ไม่พบสถานที่ที่ตรงกับการค้นหา
-            </p>
-          )}
+            {!loading && !error && temples.length === 0 && (
+              <p className="rounded-2xl bg-white px-5 py-12 text-center text-[#6e6673] shadow-sm lg:col-span-2">
+                ไม่พบสถานที่ที่ตรงกับการค้นหา
+              </p>
+            )}
 
-          {!loading &&
-            !error &&
-            temples.map((temple) => (
-              <TempleCard
-                from="/temples"
-                key={temple.id}
-                temple={temple}
-                isFavorite={favorites.has(temple.id)}
-                onToggleFavorite={handleToggleFavorite}
-                favoriteDisabled={updatingFavorite === temple.id}
-              />
-            ))}
+            {!loading &&
+              !error &&
+              temples.map((temple) => (
+                <TempleCard
+                  from="/temples"
+                  key={temple.id}
+                  temple={temple}
+                  isFavorite={favorites.has(temple.id)}
+                  onToggleFavorite={handleToggleFavorite}
+                  favoriteDisabled={updatingFavorite === temple.id}
+                />
+              ))}
+          </div>
         </div>
       </div>
+      {showScrollTop && (
+        <button
+          type="button"
+          onClick={handleScrollToTop}
+          aria-label="กลับไปด้านบน"
+          className="
+      fixed top-10 left-1/2 -translate-x-1/2 z-50
+      grid p-2 px-5 place-items-center
+      rounded-xl
+      border border-[#3B0066]/15
+      bg-white/30
+      text-[#3B0066]/50 text-lg
+      shadow-[0_8px_24px_rgba(59,0,102,0.12)]
+      backdrop-blur-md
+      transition
+      hover:bg-white/70
+      active:scale-95
+      sm:right-6
+    "
+        >
+          ↑ กลับไปบนสุด
+        </button>
+      )}
     </div>
-  </div>
-);
+  );
 }
 export default Temples;

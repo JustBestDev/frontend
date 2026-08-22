@@ -19,7 +19,7 @@ import { ArrowIcon } from "../icons/AuthIcons";
 
 function TempleImageFallback() {
   return (
-    <div className="flex aspect-[4/3] w-full items-center justify-center bg-gradient-to-br from-[#eee1f3] via-[#f8f5f9] to-[#dcc8e6] text-lg font-medium text-[#5B008E]/60">
+    <div className="flex aspect-4/3 w-full items-center justify-center bg-linear-to-br from-[#eee1f3] via-[#f8f5f9] to-[#dcc8e6] text-lg font-medium text-[#5B008E]/60">
       ไม่มีรูปภาพ
     </div>
   );
@@ -42,10 +42,16 @@ function TempleDetail() {
   const [isFortuneModalOpen, setIsFortuneModalOpen] = useState(false);
 
   useEffect(() => {
-    if (!location.state?.openFortuneModal) return;
+    if (!location.state?.openFortuneModal || !temple?.hasFortuneSticks) return;
     setIsFortuneModalOpen(true);
     navigate(location.pathname, { replace: true, state: { from } });
-  }, [from, location.pathname, location.state?.openFortuneModal, navigate]);
+  }, [
+    from,
+    location.pathname,
+    location.state?.openFortuneModal,
+    navigate,
+    temple?.hasFortuneSticks,
+  ]);
 
   useEffect(() => {
     const fetchTemple = async () => {
@@ -133,7 +139,7 @@ function TempleDetail() {
   return (
     <main className="min-h-screen animate-slide-in-right overflow-x-hidden bg-[#faf9fb] text-[#5f5863]">
       <header className="fixed top-0 z-50 w-full border-[#eee8f1] bg-white shadow-[0_-8px_30px_rgba(61,28,73,0.08)] backdrop-blur">
-        <div className="mx-auto grid h-16 w-full max-w-screen-md grid-cols-[1fr_auto_1fr] items-center px-4 sm:h-20 sm:px-6 md:px-8">
+        <div className="mx-auto grid h-16 w-full max-w-3xl grid-cols-[1fr_auto_1fr] items-center px-4 sm:h-20 sm:px-6 md:px-8">
           <button
             type="button"
             aria-label="ย้อนกลับ"
@@ -154,7 +160,7 @@ function TempleDetail() {
               <img
                 src={temple.imageUrl}
                 alt={temple.name}
-                className="aspect-[4/3] w-full object-cover"
+                className="aspect-4/3 w-full object-cover"
                 style={{ opacity: 0.6 }}
               />
             </div>
@@ -193,7 +199,7 @@ ${isFavorite ? "text-white" : "text-white"} cursor-pointer`}
         </section>
 
         <div className="space-y-5 px-4 py-6 pb-10 sm:px-6">
-          {token ? (
+          {temple.hasFortuneSticks && (token ? (
             <button
               type="button"
               onClick={() => setIsFortuneModalOpen(true)}
@@ -211,7 +217,7 @@ ${isFavorite ? "text-white" : "text-white"} cursor-pointer`}
               <ArrowIcon className="size-7" />
               เข้าสู่ระบบเพื่อเสี่ยงเซียมซี
             </button>
-          )}
+          ))}
 
           <section className="rounded-3xl bg-white p-6 shadow-sm">
             <h2 className="text-xl font-medium text-[#3B0066]">เกี่ยวกับวัด</h2>
@@ -271,12 +277,14 @@ ${isFavorite ? "text-white" : "text-white"} cursor-pointer`}
           </section>
         </div>
       </div>
-      <FortuneStickModal
-        temple={temple}
-        isOpen={isFortuneModalOpen}
-        onClose={() => setIsFortuneModalOpen(false)}
-        from={from}
-      />
+      {temple.hasFortuneSticks && (
+        <FortuneStickModal
+          temple={temple}
+          isOpen={isFortuneModalOpen}
+          onClose={() => setIsFortuneModalOpen(false)}
+          from={from}
+        />
+      )}
     </main>
   );
 }
