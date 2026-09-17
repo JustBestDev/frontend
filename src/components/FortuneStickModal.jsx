@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { drawFortune } from "../api/templeApi";
 import useUserStore from "../stores/userStore";
 
-const SHAKE_DURATION = 3000;
+const SHAKE_DURATION = 2000;
 
 function FortuneStick({ isShaking }) {
   const sticks = [
@@ -35,7 +35,7 @@ function FortuneStick({ isShaking }) {
             }}
           >
             {/* ตัวไม้ */}
-            <div className="absolute inset-x-1 bottom-0 top-8 rounded-sm bg-gradient-to-r from-[#ead8ae] via-[#f3e2ba] to-[#d7bf91]" />
+            <div className="absolute inset-x-1 bottom-0 top-8 rounded-sm bg-linear-to-r from-[#ead8ae] via-[#f3e2ba] to-[#d7bf91]" />
 
             {/* ปลายสีทอง */}
             <div className="absolute inset-x-1 top-2 h-11 bg-linear-to-r from-[#8A5A12] via-[#FFF2A8] to-[#A96F16]" />
@@ -90,18 +90,13 @@ function FortuneStickModal({ temple, isOpen, onClose, from = "/temples" }) {
   }, []);
 
   useEffect(() => {
-    if (!isOpen) return undefined;
+    if (!isOpen) return;
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    const handleKeyDown = (event) => {
-      if (event.key === "Escape" && !isShaking) onClose();
-    };
-    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
       document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", handleKeyDown);
     };
   }, [isOpen, isShaking, onClose]);
 
@@ -119,7 +114,10 @@ function FortuneStickModal({ temple, isOpen, onClose, from = "/temples" }) {
       const response = await drawFortune(temple.id, token);
       const history = response.data.history;
       navigate(`/fortune-result/${history.id}`, {
-        state: { history, from },
+        state: {
+          history: history,
+          from: from,
+        },
       });
     } catch (err) {
       if (isMounted.current) {
@@ -143,7 +141,7 @@ function FortuneStickModal({ temple, isOpen, onClose, from = "/temples" }) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="fortune-modal-title"
-        className="relative w-full max-w-md rounded-[2rem] bg-white px-5 py-8 text-center shadow-2xl sm:px-9"
+        className="relative w-full max-w-md rounded-4xl bg-white px-5 py-8 text-center shadow-2xl sm:px-9"
       >
         <button
           type="button"

@@ -33,21 +33,21 @@ function BottomNav() {
         {navItems.map(({ label, path, Icon, end }) => (
           <li key={path} className="h-full md:w-full">
             <NavLink
-  to={path}
-  end={end}
-  className={({ isActive }) =>
-    `mx-auto flex h-full max-w-22 items-center justify-center rounded-2xl px-2 py-2 text-xs font-medium transition-colors duration-200
+              to={path}
+              end={end}
+              className={({ isActive }) =>
+                `mx-auto flex h-full max-w-22 items-center justify-center rounded-2xl px-2 py-2 text-xs font-medium transition-colors duration-200
     md:flex-col md:gap-1
     ${
       isActive
         ? "bg-[#5B008E] text-[#E7C8F7]"
         : "text-[#514A58] hover:bg-[#F6EFF9] hover:text-[#5B008E]"
     }`
-  }
->
-  <Icon />
-  <span className="hidden md:inline">{label}</span>
-</NavLink>
+              }
+            >
+              <Icon />
+              <span className="hidden md:inline">{label}</span>
+            </NavLink>
           </li>
         ))}
       </ul>

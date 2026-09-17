@@ -5,6 +5,9 @@ import { EditIcon } from "../icons/ProfileIcons";
 import { HistoryIcon } from "../icons/TempleIcons";
 import useUserStore from "../stores/userStore";
 
+const actionLink =
+  "flex min-h-14 w-full items-center justify-center gap-3 rounded-xl border border-[#3B0066] bg-white text-lg font-medium text-[#3B0066] transition hover:bg-[#f8f3fa] active:scale-[0.99]";
+
 const roleLabels = {
   USER: "ผู้แสวงบุญ (Seeker)",
   ADMIN: "ผู้ดูแลระบบ (Admin)",
@@ -25,9 +28,9 @@ function getBirthDateParts(value) {
   if (!match) return null;
 
   return {
-    year: Number(match[1]),
-    month: Number(match[2]),
-    day: Number(match[3]),
+    year: Number(match[1]), // (\d{4})   ปี 4 ตัว
+    month: Number(match[2]), // (\d{2})   เดือน 2 ตัว
+    day: Number(match[3]), // (\d{2})   วัน 2 ตัว
   };
 }
 
@@ -36,6 +39,7 @@ function formatThaiDate(value) {
   if (!parts) return "ไม่พบข้อมูลวันเกิด";
 
   const date = new Date(Date.UTC(parts.year, parts.month - 1, parts.day));
+  
   return new Intl.DateTimeFormat("th-TH", {
     day: "numeric",
     month: "long",
@@ -156,64 +160,56 @@ function Profile() {
         )}
 
         {!loading && !error && user && (
-          <>
-            <section className="rounded-3xl bg-white p-6 shadow-[0_10px_32px_rgba(59,0,102,0.06)] sm:p-8">
-              {user.profileImageUrl ? (
-                <img
-                  src={user.profileImageUrl}
-                  alt={`รูปโปรไฟล์ของ ${user.name}`}
-                  className="size-28 rounded-full border-4 border-[#f0edf1] object-cover shadow-sm"
-                />
-              ) : (
-                <div className="grid size-28 place-items-center rounded-full bg-[#F6EFF9] text-[#3B0066] shadow-sm">
-                  <ProfileIcon className="size-16" />
-                </div>
-              )}
-
-              <div className="mt-8">
-                <h2 className="text-xl font-semibold text-[#242024]">
-                  {user.name}
-                </h2>
-                <p className="mt-1 wrap-break-word text-lg text-[#5f5863]">
-                  {user.email}
-                </p>
-                <p className="mt-4 font-semibold inline-flex rounded-full bg-[#F1E1F5] px-4 py-2 text-[#4A1268]">
-                  {roleLabels[user.role] || user.role}
-                </p>
+          <section className="rounded-3xl bg-white p-6 shadow-[0_10px_32px_rgba(59,0,102,0.06)] sm:p-8">
+            {user.profileImageUrl ? (
+              <img
+                src={user.profileImageUrl}
+                alt={`รูปโปรไฟล์ของ ${user.name}`}
+                className="size-28 rounded-full border-4 border-[#f0edf1] object-cover shadow-sm"
+              />
+            ) : (
+              <div className="grid size-28 place-items-center rounded-full bg-[#F6EFF9] text-[#3B0066] shadow-sm">
+                <ProfileIcon className="size-16" />
               </div>
+            )}
 
-              <hr className="my-7 border-gray-200" />
+            <div className="mt-8">
+              <h2 className="text-xl font-semibold text-[#242024]">
+                {user.name}
+              </h2>
+              <p className="mt-1 wrap-break-word text-lg text-[#5f5863]">
+                {user.email}
+              </p>
+              <p className="mt-4 font-semibold inline-flex rounded-full bg-[#F1E1F5] px-4 py-2 text-[#4A1268]">
+                {roleLabels[user.role] || user.role}
+              </p>
+            </div>
 
-              <div>
-                <p className="text-sm text-[#5f5863]">วันเกิด</p>
-                <p className="mt-2 text-xl text-[#242024]">
-                  {formatThaiDate(user.birthDate)}
-                </p>
-              </div>
+            <hr className="my-7 border-gray-200" />
 
-              <div className="mt-7">
-                <p className="text-sm text-[#5f5863]">วันเกิดประจำสัปดาห์</p>
-                <p className="mt-2 text-xl font-semibold text-[#BF9A33]">
-                  {getBirthDayName(user.birthDate)}
-                </p>
-              </div>
+            <div>
+              <p className="text-sm text-[#5f5863]">วันเกิด</p>
+              <p className="mt-2 text-xl text-[#242024]">
+                {formatThaiDate(user.birthDate)}
+              </p>
+            </div>
 
-              <Link
-                to="/profile/edit"
-                className="mt-9 flex min-h-14 w-full items-center justify-center gap-3 rounded-xl border border-[#3B0066] bg-white text-lg text-[#3B0066] transition hover:bg-[#f8f3fa] active:scale-[0.99]"
-              >
-                <EditIcon className="size-6" />
-                <span>แก้ไขโปรไฟล์</span>
-              </Link>
-              <Link
-                to="/my-history"
-                className="mt-4 flex min-h-14 w-full items-center justify-center gap-3 rounded-xl border border-[#3B0066] bg-white text-lg font-medium text-[#3B0066] transition hover:bg-[#f8f3fa] active:scale-[0.99]"
-              >
-                <HistoryIcon className="size-6" />
-                <span>ประวัติเสี่ยงเซียมซีของฉัน</span>
-              </Link>
-            </section>
-          </>
+            <div className="mt-7">
+              <p className="text-sm text-[#5f5863]">วันเกิดประจำสัปดาห์</p>
+              <p className="mt-2 text-xl font-semibold text-[#BF9A33]">
+                {getBirthDayName(user.birthDate)}
+              </p>
+            </div>
+
+            <Link to="/profile/edit" className={`mt-9 ${actionLink}`}>
+              <EditIcon className="size-6" />
+              <span>แก้ไขโปรไฟล์</span>
+            </Link>
+            <Link to="/my-history" className={`mt-4 ${actionLink}`}>
+              <HistoryIcon className="size-6" />
+              <span>ประวัติเสี่ยงเซียมซีของฉัน</span>
+            </Link>
+          </section>
         )}
       </div>
     </div>

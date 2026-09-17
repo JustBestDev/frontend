@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { getFavorites, removeFavorite } from "../api/templeApi";
 import TempleCard from "../components/TempleCard";
 import useUserStore from "../stores/userStore";
+import ScrollToTopButton from "../components/ScrollToTopButton";
 
 function Favorites() {
   const token = useUserStore((state) => state.token);
@@ -70,7 +71,7 @@ function Favorites() {
             <h1 className="text-4xl font-bold text-[#3B0066]">
               วัดที่บันทึกไว้
             </h1>
-            <p className="mt-2 text-[#6e6673]">สถานที่ศักศิ์ที่คุณชื่นชอบ</p>
+            <p className="mt-2 text-[#6e6673]">สถานที่ศักดิ์สิทธิ์ที่คุณชื่นชอบ</p>
           </header>
 
           <div className="space-y-5">
@@ -164,6 +165,7 @@ function Favorites() {
           ))}
       </div>
     </div>
+    <ScrollToTopButton />
   </div>
 );
 }

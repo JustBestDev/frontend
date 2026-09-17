@@ -10,6 +10,9 @@ import useUserStore from "../stores/userStore";
 const inputWrap =
   "relative flex min-h-14 items-center rounded-[13px] border-[1.5px] border-[#ded9e1] bg-white/90 transition focus-within:border-[#6a278e] focus-within:ring-3 focus-within:ring-[#6a278e]/10 sm:min-h-[66px]";
 
+const inputClass =
+  "h-14 w-full bg-transparent px-6 pr-15.5 text-[1.08rem] text-[#342e38] outline-none placeholder:text-[#736b76] sm:h-16";
+
 function Login() {
   const login = useUserStore((state) => state.login);
   const navigate = useNavigate();
@@ -45,17 +48,17 @@ function Login() {
   };
 
   return (
-    <main className="relative grid min-h-screen place-items-center overflow-hidden bg-[linear-gradient(145deg,#fff_5%,#fbf7ff_52%,#7f1ad1_100%)] px-4 py-[30px] sm:px-5 sm:py-[52px]">
-      <div className="pointer-events-none absolute -right-32 -top-44 size-97.5 rounded-full bg-[radial-gradient(circle,rgba(209,160,255,.48)_0%,rgba(225,194,255,.22)_42%,transparent_70%)] opacity-65 blur-lg sm:-right-[170px] sm:-top-[230px] sm:size-[560px]" />
+    <main className="relative grid min-h-screen place-items-center overflow-hidden bg-[linear-gradient(145deg,#fff_5%,#fbf7ff_52%,#7f1ad1_100%)] px-4 py-7.5 sm:px-5 sm:py-13">
+      <div className="pointer-events-none absolute -right-32 -top-44 size-97.5 rounded-full bg-[radial-gradient(circle,rgba(209,160,255,.48)_0%,rgba(225,194,255,.22)_42%,transparent_70%)] opacity-65 blur-lg sm:-right-42.5 sm:-top-57.5 sm:size-140" />
 
-      <div className="pointer-events-none absolute -bottom-52 -left-40 size-97.5 rounded-full bg-[radial-gradient(circle,rgba(209,160,255,.48)_0%,rgba(225,194,255,.22)_42%,transparent_70%)] opacity-65 blur-lg sm:-bottom-[300px] sm:-left-[230px] sm:size-[560px]" />
+      <div className="pointer-events-none absolute -bottom-52 -left-40 size-97.5 rounded-full bg-[radial-gradient(circle,rgba(209,160,255,.48)_0%,rgba(225,194,255,.22)_42%,transparent_70%)] opacity-65 blur-lg sm:-bottom-75 sm:-left-57.5 sm:size-140" />
 
       <section
         className="relative z-10 w-full max-w-152.5"
         aria-labelledby="login-title"
       >
         <header className="mb-5.5 text-center sm:mb-7.5">
-          <div className="mx-auto mb-3.5 grid size-17 place-items-center rounded-[18px] bg-white/90 text-[#41006b] shadow-[0_16px_40px_rgba(74,13,104,.09)] sm:mb-[18px] sm:size-[82px] sm:rounded-[22px] [&_svg]:size-11 sm:[&_svg]:size-[54px]">
+          <div className="mx-auto mb-3.5 grid size-17 place-items-center rounded-[18px] bg-white/90 text-[#41006b] shadow-[0_16px_40px_rgba(74,13,104,.09)] sm:mb-4.5 sm:size-20.5 sm:rounded-[22px] [&_svg]:size-11 sm:[&_svg]:size-13.5">
             <BrandLogo />
           </div>
 
@@ -72,7 +75,7 @@ function Login() {
         </header>
 
         <form
-          className="flex flex-col gap-4.25 rounded-[22px] border border-white/90 bg-white/80 px-5 py-6 shadow-[0_25px_75px_rgba(74,0,112,.11)] backdrop-blur-lg sm:gap-5 sm:rounded-[28px] sm:p-[42px]"
+          className="flex flex-col gap-4.25 rounded-[22px] border border-white/90 bg-white/80 px-5 py-6 shadow-[0_25px_75px_rgba(74,0,112,.11)] backdrop-blur-lg sm:gap-5 sm:rounded-[28px] sm:p-10.5"
           noValidate
           onSubmit={handleSubmit(onSubmit)}
         >
@@ -82,7 +85,7 @@ function Login() {
               <span className="sr-only">อีเมล</span>
 
               <input
-                className="h-14 w-full bg-transparent px-6 pr-15.5 text-[1.08rem] text-[#342e38] outline-none placeholder:text-[#736b76] sm:h-16"
+                className={inputClass}
                 type="email"
                 {...register("email")}
                 autoComplete="email"
@@ -106,7 +109,7 @@ function Login() {
               <span className="sr-only">รหัสผ่าน</span>
 
               <input
-                className="h-14 w-full bg-transparent px-6 pr-[62px] text-[1.08rem] text-[#342e38] outline-none placeholder:text-[#736b76] sm:h-16"
+                className={inputClass}
                 type={showPassword ? "text" : "password"}
                 {...register("password")}
                 autoComplete="current-password"
@@ -139,7 +142,7 @@ function Login() {
 
           {/* Login Button */}
           <button
-            className="mt-1 flex min-h-[55px] cursor-pointer items-center justify-center gap-2.5 rounded-xl border border-[#43006b] bg-[#43006b] text-[1.1rem] text-white shadow-[0_10px_25px_rgba(67,0,107,.16)] transition hover:-translate-y-px hover:bg-[#560087] hover:shadow-[0_13px_28px_rgba(67,0,107,.23)] sm:min-h-[60px] [&_svg]:size-[26px]"
+            className="mt-1 flex min-h-13.75 cursor-pointer items-center justify-center gap-2.5 rounded-xl border border-[#43006b] bg-[#43006b] text-[1.1rem] text-white shadow-[0_10px_25px_rgba(67,0,107,.16)] transition hover:-translate-y-px hover:bg-[#560087] hover:shadow-[0_13px_28px_rgba(67,0,107,.23)] sm:min-h-15 [&_svg]:size-6.5"
             type="submit"
             disabled={isSubmitting}
           >
@@ -160,15 +163,15 @@ function Login() {
 
           {/* Register */}
           <Link
-            className="grid min-h-[55px] place-items-center rounded-xl border-[1.5px] border-[#43006b] text-[1.1rem] text-[#43006b] transition hover:bg-[#43006b] hover:text-white sm:min-h-[60px]"
+            className="grid min-h-13.75 place-items-center rounded-xl border-[1.5px] border-[#43006b] text-[1.1rem] text-[#43006b] transition hover:bg-[#43006b] hover:text-white sm:min-h-15"
             to="/register"
           >
             สมัครสมาชิก
           </Link>
 
-          {/* Register */}
+          {/* Continue Later */}
           <Link
-            className="grid min-h-[55px] place-items-center rounded-xl border-[1.5px] border-[#43006b] text-[1.1rem] text-[#43006b] transition hover:bg-[#43006b] hover:text-white sm:min-h-[60px]"
+            className="grid min-h-13.75 place-items-center rounded-xl border-[1.5px] border-[#43006b] text-[1.1rem] text-[#43006b] transition hover:bg-[#43006b] hover:text-white sm:min-h-15"
             to="/home"
           >
             เข้าสู่ระบบภายหลัง

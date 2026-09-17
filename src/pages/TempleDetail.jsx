@@ -1,39 +1,35 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
+
 import {
   addFavorite,
   getFavorites,
   getTempleById,
   removeFavorite,
 } from "../api/templeApi";
-import {
-  ArrowLeftIcon,
-  HeartIcon,
-  LocationIcon,
-  SparklesIcon,
-} from "../icons/TempleIcons";
-import FortuneStickModal from "../components/FortuneStickModal";
-import useUserStore from "../stores/userStore";
-import { ArrowIcon } from "../icons/AuthIcons";
 
-function TempleImageFallback() {
-  return (
-    <div className="flex aspect-4/3 w-full items-center justify-center bg-linear-to-br from-[#eee1f3] via-[#f8f5f9] to-[#dcc8e6] text-lg font-medium text-[#5B008E]/60">
-      ไม่มีรูปภาพ
-    </div>
-  );
-}
+import FortuneStickModal from "../components/FortuneStickModal";
+import TempleHero from "../components/TempleHero";
+import TempleInfo from "../components/TempleInfo";
+import TempleLocation from "../components/TempleLocation";
+
+import { ArrowIcon } from "../icons/AuthIcons";
+import { ArrowLeftIcon, SparklesIcon } from "../icons/TempleIcons";
+
+import useUserStore from "../stores/userStore";
 
 const actionClassName =
   "grid min-h-11 min-w-11 place-items-center rounded-full text-[#3B0066] transition hover:bg-[#F6EFF9] hover:opacity-80 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2";
 
+const fortuneButtonClass =
+  "flex min-h-14 w-full cursor-pointer items-center justify-center gap-3 rounded-xl bg-[#4A006E] px-4 py-3 text-lg font-medium text-[#fafafa] shadow-[0_10px_24px_rgba(74,0,110,0.18)] transition";
+
 function TempleDetail() {
   const { templeId } = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from || "/temples";
   const token = useUserStore((state) => state.token);
+
   const [temple, setTemple] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const [favoriteDisabled, setFavoriteDisabled] = useState(false);
@@ -42,35 +38,26 @@ function TempleDetail() {
   const [isFortuneModalOpen, setIsFortuneModalOpen] = useState(false);
 
   useEffect(() => {
-    if (!location.state?.openFortuneModal || !temple?.hasFortuneSticks) return;
-    setIsFortuneModalOpen(true);
-    navigate(location.pathname, { replace: true, state: { from } });
-  }, [
-    from,
-    location.pathname,
-    location.state?.openFortuneModal,
-    navigate,
-    temple?.hasFortuneSticks,
-  ]);
-
-  useEffect(() => {
     const fetchTemple = async () => {
       try {
         setLoading(true);
         setError("");
+
         const response = await getTempleById(templeId);
         setTemple(response.data.temple);
 
         if (token) {
           const favoriteResponse = await getFavorites(token);
-          setIsFavorite(
-            favoriteResponse.data.favorites.some(
-              (item) => item.id === response.data.temple.id,
-            ),
+
+          const favorite = favoriteResponse.data.favorites.some(
+            (item) => item.id === response.data.temple.id,
           );
+
+          setIsFavorite(favorite);
         }
       } catch (err) {
         setTemple(null);
+
         setError(
           err.response?.status === 404
             ? "ไม่พบข้อมูลวัด"
@@ -86,11 +73,19 @@ function TempleDetail() {
   }, [templeId, token]);
 
   const handleToggleFavorite = async () => {
-    if (!token) return toast.info("กรุณาเข้าสู่ระบบเพื่อบันทึกรายการโปรด");
+    if (!token) {
+      return toast.info("กรุณาเข้าสู่ระบบเพื่อบันทึกรายการโปรด");
+    }
+
     setFavoriteDisabled(true);
+
     try {
-      if (isFavorite) await removeFavorite(temple.id, token);
-      else await addFavorite(temple.id, token);
+      if (isFavorite) {
+        await removeFavorite(temple.id, token);
+      } else {
+        await addFavorite(temple.id, token);
+      }
+
       setIsFavorite((current) => !current);
     } catch (err) {
       toast.error(
@@ -101,12 +96,13 @@ function TempleDetail() {
     }
   };
 
-  if (loading)
+  if (loading) {
     return (
       <main className="grid min-h-screen place-items-center bg-[#faf9fb] text-[#6e6673]">
         กำลังโหลดข้อมูลวัด...
       </main>
     );
+  }
 
   if (error || !temple) {
     return (
@@ -115,9 +111,10 @@ function TempleDetail() {
           <p role="alert" className="text-xl font-medium text-[#3B0066]">
             {error || "ไม่พบข้อมูลวัด"}
           </p>
+
           <button
             type="button"
-            onClick={() => navigate(from, { replace: true })}
+            onClick={() => navigate("/temples")}
             className="mt-5 rounded-xl bg-[#3B0066] px-5 py-3 text-white"
           >
             กลับไปหน้ารวมวัด
@@ -126,15 +123,6 @@ function TempleDetail() {
       </main>
     );
   }
-
-  const hasCoordinates =
-    Number.isFinite(temple.latitude) && Number.isFinite(temple.longitude);
-  const mapUrl = hasCoordinates
-    ? `https://maps.google.com/maps?q=${temple.latitude},${temple.longitude}&z=15&output=embed`
-    : "";
-  const largeMapUrl = hasCoordinates
-    ? `https://www.google.com/maps/search/?api=1&query=${temple.latitude},${temple.longitude}`
-    : "";
 
   return (
     <main className="min-h-screen animate-slide-in-right overflow-x-hidden bg-[#faf9fb] text-[#5f5863]">
@@ -148,141 +136,55 @@ function TempleDetail() {
           >
             <ArrowLeftIcon className="size-8" />
           </button>
-          <h1 className="justify-self-center text-xl font-bold tracking-[-0.04em] text-[#3B0066] sm:text-2xl">
+
+          <h1 className="justify-self-center text-xl font-bold text-[#3B0066] sm:text-2xl">
             {temple.name}
           </h1>
         </div>
       </header>
-      <div className="mx-auto mt-20 w-full max-w-md bg-[#faf9fb] sm:max-w-lg md:max-w-xl">
-        <section className="relative">
-          {temple.imageUrl ? (
-            <div className="z-10 w-full" style={{ backgroundColor: "black" }}>
-              <img
-                src={temple.imageUrl}
-                alt={temple.name}
-                className="aspect-4/3 w-full object-cover"
-                style={{ opacity: 0.6 }}
-              />
-            </div>
-          ) : (
-            <TempleImageFallback />
-          )}
 
-          <div className="absolute inset-x-0 bottom-0 p-5 pr-24 text-white">
-            <h2 className="text-xl font-bold leading-snug sm:text-2xl">
-              {temple.name}
-            </h2>
-            <p className="mt-2 flex items-center gap-2 text-base sm:text-lg">
-              <LocationIcon className="size-6 shrink-0" />
-              <span>{temple.province}</span>
-            </p>
-          </div>
-          <button
-            type="button"
-            aria-label={
-              isFavorite
-                ? `นำ ${temple.name} ออกจากรายการโปรด`
-                : `เพิ่ม ${temple.name} ในรายการโปรด`
-            }
-            aria-pressed={isFavorite}
-            disabled={favoriteDisabled}
-            onClick={handleToggleFavorite}
-            className={`absolute right-3 bottom-6 grid size-11 shrink-0 place-items-center rounded-full
-bg-white/30 backdrop-blur-md
-border border-white/40
-shadow-sm transition active:scale-95
-disabled:cursor-not-allowed disabled:opacity-55
-${isFavorite ? "text-white" : "text-white"} cursor-pointer`}
-          >
-            <HeartIcon className="size-7" filled={isFavorite} />
-          </button>
-        </section>
+      <div className="mx-auto mt-20 w-full max-w-md bg-[#faf9fb] sm:max-w-lg md:max-w-xl">
+        <TempleHero
+          temple={temple}
+          isFavorite={isFavorite}
+          favoriteDisabled={favoriteDisabled}
+          onToggleFavorite={handleToggleFavorite}
+        />
 
         <div className="space-y-5 px-4 py-6 pb-10 sm:px-6">
-          {temple.hasFortuneSticks && (token ? (
-            <button
-              type="button"
-              onClick={() => setIsFortuneModalOpen(true)}
-              className="flex min-h-14 w-full cursor-pointer items-center justify-center gap-3 rounded-xl bg-[#4A006E] px-4 py-3 text-lg font-medium text-[#fafafa] shadow-[0_10px_24px_rgba(74,0,110,0.18)] transition"
-            >
-              <SparklesIcon className="size-7" />
-              เสี่ยงเซียมซีที่วัดนี้
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={() => navigate("/login")}
-              className="flex min-h-14 w-full cursor-pointer items-center justify-center gap-3 rounded-xl bg-[#4A006E] px-4 py-3 text-lg font-medium text-[#fafafa] shadow-[0_10px_24px_rgba(74,0,110,0.18)] transition"
-            >
-              <ArrowIcon className="size-7" />
-              เข้าสู่ระบบเพื่อเสี่ยงเซียมซี
-            </button>
-          ))}
+          {temple.hasFortuneSticks &&
+            (token ? (
+              <button
+                type="button"
+                onClick={() => setIsFortuneModalOpen(true)}
+                className={fortuneButtonClass}
+              >
+                <SparklesIcon className="size-7" />
+                เสี่ยงเซียมซีที่วัดนี้
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => navigate("/login")}
+                className={fortuneButtonClass}
+              >
+                <ArrowIcon className="size-7" />
+                เข้าสู่ระบบเพื่อเสี่ยงเซียมซี
+              </button>
+            ))}
 
-          <section className="rounded-3xl bg-white p-6 shadow-sm">
-            <h2 className="text-xl font-medium text-[#3B0066]">เกี่ยวกับวัด</h2>
-            <p className="mt-5 whitespace-pre-line text-base leading-8">
-              {temple.description}
-            </p>
-          </section>
+          <TempleInfo temple={temple} />
 
-          <section className="rounded-3xl bg-white p-6 shadow-sm">
-            <h2 className="text-xl font-medium text-[#3B0066]">
-              ความเชื่อและสิริมงคล
-            </h2>
-            <div className="mt-5 flex flex-wrap gap-3">
-              {temple.categories?.map((item) => (
-                <span
-                  key={item.id}
-                  className="inline-flex min-h-10 items-center justify-center rounded-full bg-[#efe2f2] px-5 py-2 text-center text-sm font-medium text-[#40204f]"
-                >
-                  {item.name}
-                </span>
-              ))}
-            </div>
-          </section>
-
-          <section className="rounded-3xl bg-white p-6 shadow-sm">
-            <h2 className="text-xl font-medium text-[#3B0066]">ที่ตั้ง</h2>
-            <div className="mt-5 flex items-start gap-3 text-base leading-7">
-              <LocationIcon className="mt-0.5 size-7 shrink-0 text-[#817987]" />
-              <p>{temple.address || temple.province}</p>
-            </div>
-            <div className="group relative mt-5 h-56 w-full overflow-hidden rounded-2xl bg-[#e8e5e9]">
-              {hasCoordinates ? (
-                <iframe
-                  title={`แผนที่ ${temple.name}`}
-                  src={mapUrl}
-                  className="size-full border-0"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-              ) : (
-                <div className="grid size-full place-items-center text-[#817987]">
-                  ไม่มีข้อมูลพิกัด
-                </div>
-              )}
-
-              {hasCoordinates && (
-                <a
-                  href={largeMapUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full bg-white px-5 py-3 font-medium text-[#3B0066] opacity-0 shadow-lg transition group-hover:opacity-100"
-                >
-                  ดูแผนที่ขนาดใหญ่
-                </a>
-              )}
-            </div>
-          </section>
+          <TempleLocation temple={temple} />
         </div>
       </div>
+
       {temple.hasFortuneSticks && (
         <FortuneStickModal
           temple={temple}
           isOpen={isFortuneModalOpen}
           onClose={() => setIsFortuneModalOpen(false)}
-          from={from}
+          from="/temples"
         />
       )}
     </main>

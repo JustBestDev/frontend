@@ -13,6 +13,7 @@ import {
   UserIcon,
 } from "../icons/AuthIcons";
 import { registerSchema } from "../validations/registerValidation";
+import { getLocalToday } from "../utils/dateUtils";
 
 const inputClass =
   "h-14 w-full rounded-xl border-[1.5px] border-[#ded9e1] bg-white px-5 pr-14 text-base text-[#342e38] outline-none transition placeholder:text-[#847c88] focus:border-[#6a278e] focus:ring-3 focus:ring-[#6a278e]/10 sm:h-16";
@@ -25,6 +26,45 @@ function FieldError({ error }) {
   return error ? (
     <p className="mt-1.5 text-sm text-red-500">{error.message}</p>
   ) : null;
+}
+
+function PasswordField({
+  name,
+  placeholder,
+  shown,
+  setShown,
+  register,
+  error,
+}) {
+  return (
+    <div>
+      <label className="sr-only" htmlFor={name}>
+        {placeholder}
+      </label>
+
+      <div className="relative">
+        <input
+          id={name}
+          type={shown ? "text" : "password"}
+          autoComplete="new-password"
+          placeholder={placeholder}
+          className={`${inputClass} ${error ? errorInputClass : ""}`}
+          {...register(name)}
+        />
+
+        <button
+          type="button"
+          className="absolute inset-y-0 right-4 flex w-10 cursor-pointer items-center justify-center text-[#aaa5ad] transition hover:text-[#6a278e] [&_svg]:size-6"
+          onClick={() => setShown((value) => !value)}
+          aria-pressed={shown}
+        >
+          <EyeIcon hidden={!shown} />
+        </button>
+      </div>
+
+      <FieldError error={error} />
+    </div>
+  );
 }
 
 function Register() {
@@ -59,16 +99,6 @@ function Register() {
       );
     }
   };
-
-  const passwordFields = [
-    ["password", "รหัสผ่าน", showPassword, setShowPassword],
-    [
-      "confirmPassword",
-      "ยืนยันรหัสผ่าน",
-      showConfirmPassword,
-      setShowConfirmPassword,
-    ],
-  ];
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-linear-to-b from-purple-50 via-white to-amber-50 px-4 py-6 sm:px-6 sm:py-10">
@@ -139,35 +169,23 @@ function Register() {
               <FieldError error={errors.email} />
             </div>
 
-            {passwordFields.map(([name, placeholder, shown, setShown]) => (
-              <div key={name}>
-                <label className="sr-only" htmlFor={name}>
-                  {placeholder}
-                </label>
-                <div className="relative">
-                  <input
-                    id={name}
-                    type={shown ? "text" : "password"}
-                    autoComplete="new-password"
-                    placeholder={placeholder}
-                    className={`${inputClass} ${errors[name] ? errorInputClass : ""}`}
-                    {...register(name)}
-                  />
-                  <button
-                    type="button"
-                    className="absolute inset-y-0 right-4 flex w-10 cursor-pointer items-center justify-center text-[#aaa5ad] transition hover:text-[#6a278e] [&_svg]:size-6"
-                    onClick={() => setShown((value) => !value)}
-                    aria-label={
-                      shown ? `ซ่อน${placeholder}` : `แสดง${placeholder}`
-                    }
-                    aria-pressed={shown}
-                  >
-                    <EyeIcon hidden={!shown} />
-                  </button>
-                </div>
-                <FieldError error={errors[name]} />
-              </div>
-            ))}
+            <PasswordField
+              name="password"
+              placeholder="รหัสผ่าน"
+              shown={showPassword}
+              setShown={setShowPassword}
+              register={register}
+              error={errors.password}
+            />
+
+            <PasswordField
+              name="confirmPassword"
+              placeholder="ยืนยันรหัสผ่าน"
+              shown={showConfirmPassword}
+              setShown={setShowConfirmPassword}
+              register={register}
+              error={errors.confirmPassword}
+            />
 
             <fieldset className="mt-1 rounded-xl border-2 border-amber-200 px-4 pb-5">
               <legend className="px-2 text-sm font-medium text-amber-700">
@@ -198,20 +216,21 @@ function Register() {
                 <input
                   id="birthDate"
                   type="date"
+                  max={getLocalToday()}
                   {...birthDateRegister}
                   ref={(element) => {
                     birthDateRegister.ref(element);
                     birthDateRef.current = element;
                   }}
                   className={`${inputClass} cursor-pointer px-12 pr-4
-        [&::-webkit-calendar-picker-indicator]:absolute
-        [&::-webkit-calendar-picker-indicator]:inset-0
-        [&::-webkit-calendar-picker-indicator]:h-full
-        [&::-webkit-calendar-picker-indicator]:w-full
-        [&::-webkit-calendar-picker-indicator]:cursor-pointer
-        [&::-webkit-calendar-picker-indicator]:opacity-0
-        ${errors.birthDate ? errorInputClass : ""}
-      `}
+    [&::-webkit-calendar-picker-indicator]:absolute
+    [&::-webkit-calendar-picker-indicator]:inset-0
+    [&::-webkit-calendar-picker-indicator]:h-full
+    [&::-webkit-calendar-picker-indicator]:w-full
+    [&::-webkit-calendar-picker-indicator]:cursor-pointer
+    [&::-webkit-calendar-picker-indicator]:opacity-0
+    ${errors.birthDate ? errorInputClass : ""}
+  `}
                 />
               </div>
 

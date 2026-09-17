@@ -27,13 +27,7 @@ body {
 }
 
 .fortune-stick-shaking {
-  animation: fortune-stick-shake 3s ease-in-out both;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .fortune-stick-shaking {
-    animation: none;
-  }
+  animation: fortune-stick-shake 2s ease-in-out both;
 }
 
 @keyframes page-in {

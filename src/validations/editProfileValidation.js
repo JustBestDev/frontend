@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { getLocalToday } from "../utils/dateUtils";
 
 function isValidDate(value) {
   const match = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
@@ -9,14 +10,6 @@ function isValidDate(value) {
     date.getUTCFullYear() === Number(year) &&
     date.getUTCMonth() + 1 === Number(month) &&
     date.getUTCDate() === Number(day);
-}
-
-function getLocalToday() {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, "0");
-  const day = String(today.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
 }
 
 export const editProfileSchema = z.object({

@@ -7,6 +7,7 @@ import { updateProfile } from "../api/authApi";
 import { CalendarIcon } from "../icons/AuthIcons";
 import { ProfileIcon } from "../icons/HeaderIcons";
 import useUserStore from "../stores/userStore";
+import { getLocalToday } from "../utils/dateUtils";
 import { editProfileSchema } from "../validations/editProfileValidation";
 import { ArrowLeftIcon } from "../icons/TempleIcons";
 
@@ -22,14 +23,6 @@ const dayNames = [
 
 function toDateInputValue(value) {
   return String(value || "").match(/^\d{4}-\d{2}-\d{2}/)?.[0] || "";
-}
-
-function getLocalToday() {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, "0");
-  const day = String(today.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
 }
 
 function getThaiWeekday(value) {
@@ -75,7 +68,8 @@ function EditProfile() {
     defaultValues: { name: originalName, birthDate: originalBirthDate },
   });
 
-  useEffect(() => {
+useEffect(() => {
+  const fetchProfile = async () => {
     if (user) {
       reset({
         name: user.name || "",
@@ -83,11 +77,17 @@ function EditProfile() {
       });
       return;
     }
-    fetchCurrentUser().catch(() => {
+
+    try {
+      await fetchCurrentUser();
+    } catch {
       toast.error("ไม่สามารถโหลดข้อมูลโปรไฟล์ได้ กรุณาลองใหม่อีกครั้ง");
       navigate("/profile", { replace: true });
-    });
-  }, [fetchCurrentUser, navigate, reset, user]);
+    }
+  };
+
+  fetchProfile();
+}, [fetchCurrentUser, navigate, reset, user]);
 
   const name = watch("name") || "";
   const birthDate = watch("birthDate") || "";
@@ -122,7 +122,7 @@ function EditProfile() {
   return (
     <div className="animate-slide-in-right">
       <header className="w-full border-[#eee8f1] bg-white shadow-[0_-8px_30px_rgba(61,28,73,0.08)] backdrop-blur">
-        <div className="mx-auto grid h-16 w-full max-w-screen-md grid-cols-[1fr_auto_1fr] items-center px-4 sm:h-20 sm:px-6 md:px-8">
+        <div className="mx-auto grid h-16 w-full max-w-3xl grid-cols-[1fr_auto_1fr] items-center px-4 sm:h-20 sm:px-6 md:px-8">
           <button
             type="button"
             aria-label="กลับหน้าโปรไฟล์"
@@ -132,7 +132,7 @@ function EditProfile() {
             <ArrowLeftIcon className="size-8" />
           </button>
           <h1 className="whitespace-nowrap text-2xl font-bold text-[#3B0066]">
-            ประวัติของฉัน
+            แก้ไขโปรไฟล์
           </h1>
         </div>
       </header>
@@ -153,14 +153,6 @@ function EditProfile() {
                 <ProfileIcon className="size-16" />
               </div>
             )}
-            {/* <button
-              type="button"
-              disabled
-              title="ระบบเปลี่ยนรูปโปรไฟล์ยังไม่พร้อมใช้งาน"
-              className="mt-4 cursor-not-allowed text-sm font-medium text-[#7A21A8] opacity-60"
-            >
-              📷 เปลี่ยนรูป (เร็ว ๆ นี้)
-            </button> */}
           </div>
 
           <form

@@ -11,7 +11,6 @@ function Header() {
   const user = useUserStore((state) => state.user);
 
   const handleLogout = () => {
-    // Authentication state/API can be cleared here when it is added to the app.
     logout();
     navigate("/login", { replace: true });
   };
@@ -30,16 +29,15 @@ function Header() {
           md:px-8
         "
       >
-        {/* Mobile left / Desktop right */}
         <div className="justify-self-start md:order-1 md:flex md:items-center md:gap-3">
           {user ? (
             <button
               type="button"
               aria-label="Logout"
-              className={actionClassName}
+              className={`${actionClassName} cursor-pointer`}
               onClick={handleLogout}
             >
-              <LogoutIcon className="size-7 cursor-pointer" />
+              <LogoutIcon className="size-7" />
             </button>
           ) : (
             <Link
@@ -65,7 +63,6 @@ function Header() {
           MuMorrow
         </span>
 
-        {/* Mobile right / Desktop right */}
         <div className="justify-self-end md:order-3 md:flex md:items-center">
           {user ? (
             <Link

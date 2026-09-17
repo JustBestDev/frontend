@@ -1,6 +1,9 @@
 import { ArrowRightIcon, HeartIcon, LocationIcon } from "../icons/TempleIcons";
 import { Link } from "react-router";
 
+const favoriteButtonClass =
+  "absolute right-3 top-3 inline-flex min-h-10 shrink-0 place-items-center gap-1.5 rounded-full border border-white/40 bg-white/30 px-3 shadow-sm backdrop-blur-md transition active:scale-95 disabled:cursor-not-allowed disabled:opacity-55 cursor-pointer";
+
 function TempleImageFallback() {
   return (
     <div className="flex aspect-video w-full items-center justify-center bg-linear-to-br from-[#eee1f3] via-[#f8f5f9] to-[#dcc8e6] text-[#5B008E]">
@@ -32,7 +35,7 @@ function TempleCard({
           <img
             src={temple.imageUrl}
             alt={temple.name}
-            className="aspect-[16/9] w-full object-cover"
+            className="aspect-video w-full object-cover"
           />
         ) : (
           <TempleImageFallback />
@@ -47,12 +50,9 @@ function TempleCard({
           aria-pressed={isFavorite}
           disabled={favoriteDisabled}
           onClick={() => onToggleFavorite(temple.id)}
-          className={`absolute right-3 top-3 inline-flex gap-1.5 px-3 min-h-10 shrink-0 place-items-center rounded-full
-bg-white/30 backdrop-blur-md
-border border-white/40
-shadow-sm transition active:scale-95
-disabled:cursor-not-allowed disabled:opacity-55
-${isFavorite ? "text-[#5B008E]" : "text-[#29252d]"} cursor-pointer`}
+          className={`${favoriteButtonClass} ${
+            isFavorite ? "text-[#5B008E]" : "text-[#29252d]"
+          }`}
         >
           {temple.favoriteCount}
           <HeartIcon filled={isFavorite} />
@@ -73,7 +73,7 @@ ${isFavorite ? "text-[#5B008E]" : "text-[#29252d]"} cursor-pointer`}
           {temple.name}
         </h2>
         <p className="mt-2 flex items-center gap-1.5 text-sm text-[#615a66]">
-          <LocationIcon className="size-[18px] shrink-0" />
+          <LocationIcon className="size-4.5 shrink-0" />
           <span>{temple.province}</span>
         </p>
         <p className="mt-3 line-clamp-2 min-h-12 leading-6 text-[#615a66]">
